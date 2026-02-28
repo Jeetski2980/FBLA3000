@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { Star, CheckCircle2, Trash2, MessageSquare, Send, X, Loader2 } from 'lucide-react';
 import { format } from 'date-fns';
+import { useProfile } from '../context/ProfileContext';
 
 export default function ReviewCard({ review, onDelete, onReply, isActive, onActivate }) {
+  const { profile } = useProfile();
   const [isReplying, setIsReplying] = useState(false);
   const [replyText, setReplyText] = useState('');
   const [isSaving, setIsSaving] = useState(false);
@@ -49,7 +51,10 @@ export default function ReviewCard({ review, onDelete, onReply, isActive, onActi
 
   const handleDelete = async () => {
     try {
-      const res = await fetch(`/api/reviews/${review.id}`, { method: 'DELETE' });
+      const username = profile.username || '';
+      if (!username) return;
+      
+      const res = await fetch(`/api/reviews/${review.id}?username=${username}`, { method: 'DELETE' });
       if (res.ok) {
         onDelete(review.id);
       }
@@ -58,19 +63,24 @@ export default function ReviewCard({ review, onDelete, onReply, isActive, onActi
     }
   };
 
+  const isReviewOwner = profile.username && review.reviewedBy && 
+    profile.username.trim().toLowerCase() === review.reviewedBy.trim().toLowerCase();
+
   return (
     <div className={`bg-white rounded-2xl p-5 border transition-all duration-300 shadow-sm ${isReplying ? 'border-[#c8ff57] ring-1 ring-[#c8ff57]/20' : 'border-slate-100'}`}>
       {/* Top Row: Username & Delete */}
       <div className="flex items-center justify-between mb-2">
-        <span className="text-sm font-black text-[#c8ff57] tracking-tight">
-          @{review.username || 'anonymous'}
+        <span className="text-[13px] font-bold text-[#c8ff57] tracking-tight">
+          @{review.reviewedBy || review.username || 'anonymous'}
         </span>
-        <button
-          onClick={handleDelete}
-          className="bg-[#ff4d4d] text-white text-[11px] font-bold px-[12px] py-[4px] rounded-[16px] hover:bg-red-600 transition-colors"
-        >
-          Delete
-        </button>
+        {isReviewOwner && (
+          <button
+            onClick={handleDelete}
+            className="bg-[#ff4d4d] text-white text-[11px] font-bold px-[12px] py-[4px] rounded-[16px] hover:bg-red-600 transition-colors"
+          >
+            Delete
+          </button>
+        )}
       </div>
 
       {/* Second Row: Stars */}

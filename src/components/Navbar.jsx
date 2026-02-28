@@ -43,6 +43,24 @@ export default function Navbar() {
           </div>
 
           <div className="flex items-center gap-4">
+            <div className="flex flex-col items-end">
+              <div className="flex items-center gap-2">
+                <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Your Username</label>
+                <input
+                  type="text"
+                  placeholder="@your_username"
+                  value={profile.username}
+                  onChange={(e) => updateProfile({ username: e.target.value })}
+                  className="bg-slate-100 border-none rounded-lg px-2 py-1 text-xs font-medium focus:ring-1 focus:ring-primary w-32"
+                />
+              </div>
+              {profile.username && (
+                <span className="text-[10px] font-bold text-[#c8ff57] mt-1">
+                  Logged in as @{profile.username.replace(/^@/, '')}
+                </span>
+              )}
+            </div>
+
             <button
               onClick={() => {
                 const newZip = prompt('Enter your ZIP code:', profile.zip);

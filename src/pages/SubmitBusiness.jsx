@@ -13,7 +13,8 @@ export default function SubmitBusiness() {
     zip: profile.zip || '',
     address: '',
     website: '',
-    business_image: ''
+    business_image: '',
+    createdBy: profile.username || ''
   });
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -40,8 +41,18 @@ export default function SubmitBusiness() {
     }
   }, [dealSuccess]);
 
+  useEffect(() => {
+    setFormData(prev => ({ ...prev, createdBy: profile.username }));
+  }, [profile.username]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    if (!profile.username.trim()) {
+      setError('Set your username at the top of the page before listing a business');
+      return;
+    }
+
     setLoading(true);
     setError('');
     
@@ -55,7 +66,7 @@ export default function SubmitBusiness() {
       const res = await fetch('/api/businesses/submit', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...formData, website: finalWebsite })
+        body: JSON.stringify({ ...formData, website: finalWebsite, createdBy: profile.username })
       });
       const data = await res.json();
       
@@ -147,6 +158,18 @@ export default function SubmitBusiness() {
 
         <div className="bg-white rounded-3xl p-8 shadow-xl border border-slate-100">
           <form onSubmit={handleSubmit} className="space-y-6">
+            <div>
+              <label className="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Your Username</label>
+              <input
+                type="text"
+                required
+                value={formData.createdBy}
+                onChange={(e) => setFormData({ ...formData, createdBy: e.target.value })}
+                className="input"
+                placeholder="e.g. @sarah_m"
+              />
+            </div>
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <label className="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Business Name</label>

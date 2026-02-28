@@ -21,7 +21,7 @@ async function startServer() {
 
   // --- Businesses API ---
   app.post('/api/businesses/submit', async (req, res) => {
-    const { name, category, description, zip, website, address, business_image, createdByUsername } = req.body;
+    const { name, category, description, zip, website, address, business_image, createdBy } = req.body;
     if (!name || !category || !description || !zip) {
       return res.status(400).json({ error: 'Missing required fields' });
     }
@@ -36,7 +36,7 @@ async function startServer() {
       address,
       website,
       imageUrl: business_image,
-      createdByUsername: createdByUsername || 'Anonymous',
+      createdBy: createdBy || 'Anonymous',
       createdAt: new Date().toISOString(),
       status: 'APPROVED'
     };
@@ -53,7 +53,7 @@ async function startServer() {
     
     if (!business) return res.status(404).json({ error: 'Business not found' });
     
-    if (business.createdByUsername && business.createdByUsername !== username) {
+    if (business.createdBy && username && business.createdBy.trim().toLowerCase() !== username.trim().toLowerCase()) {
       return res.status(403).json({ error: 'You can only delete businesses that you created.' });
     }
 
@@ -227,14 +227,14 @@ async function startServer() {
     
     const enrichedReviews = bReviews.map(r => {
       const user = users.find(u => u.id === r.userId);
-      return { ...r, username: user?.username };
+      return { ...r, username: r.reviewedBy || r.username || user?.username };
     });
 
     res.json(enrichedReviews);
   });
 
   app.post('/api/businesses/:id/reviews', async (req, res) => {
-    const { rating, comment, verificationAnswer, username } = req.body;
+    const { rating, comment, verificationAnswer, reviewedBy } = req.body;
     
     // Check if the answer matches ANY of the questions (simple enough for this requirement)
     const isValid = VERIFICATION_QUESTIONS.some(q => q.a === verificationAnswer.trim());
@@ -250,7 +250,7 @@ async function startServer() {
       id: uuidv4(),
       businessId: req.params.id,
       userId: 'anonymous', // No login, so anonymous or provided username
-      username: username || 'Anonymous',
+      reviewedBy: reviewedBy || 'Anonymous',
       rating,
       comment,
       status: 'VERIFIED', // Reviews appear automatically
@@ -276,7 +276,16 @@ async function startServer() {
   });
 
   app.delete('/api/reviews/:id', async (req, res) => {
+    const { username } = req.query;
     const reviews = await readData('reviews.json');
+    const review = reviews.find(r => r.id === req.params.id);
+    
+    if (!review) return res.status(404).json({ error: 'Review not found' });
+    
+    if (review.reviewedBy && username && review.reviewedBy.trim().toLowerCase() !== username.trim().toLowerCase()) {
+      return res.status(403).json({ error: 'You can only delete your own reviews.' });
+    }
+
     const filtered = reviews.filter(r => r.id !== req.params.id);
     await writeData('reviews.json', filtered);
     res.json({ message: 'Review deleted' });

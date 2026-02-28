@@ -60,8 +60,8 @@ export default function BusinessProfile() {
   const submitReview = async (e) => {
     e.preventDefault();
     
-    if (!reviewUsername.trim()) {
-      setMessage({ type: 'error', text: 'Please enter a username to post your review' });
+    if (!profile.username.trim()) {
+      setMessage({ type: 'error', text: 'Set your username at the top of the page before leaving a review' });
       return;
     }
 
@@ -76,7 +76,7 @@ export default function BusinessProfile() {
           rating, 
           comment, 
           verificationAnswer: verification,
-          username: reviewUsername
+          reviewedBy: profile.username
         })
       });
       const data = await res.json();
@@ -340,18 +340,6 @@ export default function BusinessProfile() {
             <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm mb-6">
               <h3 className="font-bold text-slate-900 mb-4">Leave a Review</h3>
               <form onSubmit={submitReview} className="space-y-4">
-                <div>
-                  <label className="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Username</label>
-                  <input
-                    type="text"
-                    value={reviewUsername}
-                    onChange={(e) => setReviewUsername(e.target.value)}
-                    required
-                    className="input text-sm"
-                    placeholder="Your username (e.g. @sarah_m)"
-                  />
-                </div>
-
                 <div>
                   <label className="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Rating</label>
                   <div className="flex gap-2">
