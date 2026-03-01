@@ -4,7 +4,6 @@ import { ProfileProvider } from './context/ProfileContext';
 import { UIProvider } from './context/UIContext';
 import Navbar from './components/Navbar';
 import GlobalUI from './components/GlobalUI';
-import OnboardingModal from './components/OnboardingModal';
 
 // Pages
 import Home from './pages/Home';

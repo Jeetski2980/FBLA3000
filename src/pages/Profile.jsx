@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useProfile } from '../context/ProfileContext';
-import { User, MapPin, Sparkles, Edit3, Save } from 'lucide-react';
-import AIRecommendations from '../components/AIRecommendations';
+import { User, MapPin, Edit3, Save } from 'lucide-react';
 
 export default function Profile() {
   const { profile, updateProfile } = useProfile();

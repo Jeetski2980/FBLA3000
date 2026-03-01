@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Star, MapPin, Tag, Globe, Bookmark, Trash2 } from 'lucide-react';
+import { Star, MapPin, Tag, Globe, Trash2 } from 'lucide-react';
 import { useProfile } from '../context/ProfileContext';
 import { useUI } from '../context/UIContext';
 

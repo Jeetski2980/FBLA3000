@@ -10,11 +10,10 @@ export function ProfileProvider({ children }) {
       return {
         zip: parsed.zip || '',
         bio: parsed.bio || '',
-        username: parsed.username || '',
-        bookmarks: parsed.bookmarks || []
+        username: parsed.username || ''
       };
     }
-    return { zip: '', bio: '', username: '', bookmarks: [] };
+    return { zip: '', bio: '', username: '' };
   });
 
   useEffect(() => {
@@ -25,20 +24,8 @@ export function ProfileProvider({ children }) {
     setProfile(prev => ({ ...prev, ...updates }));
   };
 
-  const toggleBookmark = (id) => {
-    setProfile(prev => {
-      const bookmarks = prev.bookmarks || [];
-      const updated = bookmarks.includes(id) 
-        ? bookmarks.filter(b => b !== id) 
-        : [...bookmarks, id];
-      return { ...prev, bookmarks: updated };
-    });
-  };
-
-  const isComplete = profile.zip && profile.bio;
-
   return (
-    <ProfileContext.Provider value={{ profile, updateProfile, toggleBookmark, isComplete }}>
+    <ProfileContext.Provider value={{ profile, updateProfile }}>
       {children}
     </ProfileContext.Provider>
   );

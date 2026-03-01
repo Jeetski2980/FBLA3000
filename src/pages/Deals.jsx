@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useProfile } from '../context/ProfileContext';
-import { useUI } from '../context/UIContext';
 import FeedCard from '../components/FeedCard';
-import { Loader2, Tag, PlusCircle } from 'lucide-react';
+import { Loader2, Tag } from 'lucide-react';
 
 export default function Deals() {
   const { profile } = useProfile();
-  const { openPanel } = useUI();
   const { zip } = profile;
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);

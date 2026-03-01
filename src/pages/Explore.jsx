@@ -5,9 +5,8 @@ import BusinessCard from '../components/BusinessCard';
 import { Search, Loader2, SlidersHorizontal } from 'lucide-react';
 
 export default function Explore() {
-  const { profile, toggleBookmark } = useProfile();
-  const { openPanel } = useUI();
-  const { zip, bookmarks = [] } = profile;
+  const { profile } = useProfile();
+  const { zip } = profile;
   const [businesses, setBusinesses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
@@ -89,8 +88,6 @@ export default function Explore() {
               key={business.id} 
               business={business} 
               onDelete={handleDeleteBusiness}
-              isBookmarked={bookmarks.includes(business.id)}
-              onToggleBookmark={() => toggleBookmark(business.id)}
             />
           ))}
         </div>
