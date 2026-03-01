@@ -34,68 +34,62 @@ export default function Admin() {
 
   return (
     <div className="max-w-5xl mx-auto px-4 py-8">
-      <div className="mb-12">
-        <h1 className="text-4xl font-black text-white flex items-center gap-4 tracking-tight">
-          <ShieldCheck className="text-[#c8ff57]" size={40} />
+      <div className="mb-10">
+        <h1 className="text-3xl font-bold text-slate-900 flex items-center gap-3">
+          <ShieldCheck className="text-primary" size={32} />
           Admin Panel
         </h1>
-        <p className="text-slate-500 mt-2 font-medium">Review and verify community contributions</p>
+        <p className="text-slate-500">Review and verify community contributions</p>
       </div>
 
       <section>
-        <h2 className="text-xl font-black text-white mb-8 flex items-center gap-3 uppercase tracking-widest text-sm">
-          Pending Reviews ({reviews.length})
-        </h2>
+        <h2 className="text-xl font-bold text-slate-900 mb-6">Pending Reviews ({reviews.length})</h2>
         
         {loading ? (
-          <div className="flex justify-center py-20">
-            <Loader2 className="animate-spin text-[#c8ff57]" size={40} />
-          </div>
+          <Loader2 className="animate-spin text-primary mx-auto" />
         ) : reviews.length > 0 ? (
-          <div className="grid gap-6">
+          <div className="grid gap-4">
             {reviews.map(review => (
-              <div key={review.id} className="bg-[#111] rounded-[32px] p-8 border border-white/5 shadow-2xl">
-                <div className="flex flex-col md:flex-row justify-between gap-8">
+              <div key={review.id} className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm">
+                <div className="flex flex-col md:flex-row justify-between gap-4">
                   <div className="flex-1">
-                    <div className="flex items-center gap-3 mb-4">
-                      <span className="text-sm font-black text-white">@{review.username}</span>
-                      <span className="text-white/10">•</span>
-                      <span className="text-[10px] font-black text-black uppercase tracking-[0.2em] bg-[#c8ff57] px-3 py-1 rounded-full">
-                        {review.businessName}
-                      </span>
+                    <div className="flex items-center gap-2 mb-2">
+                      <span className="text-sm font-bold text-slate-900">@{review.username}</span>
+                      <span className="text-slate-300">•</span>
+                      <span className="text-xs font-bold text-primary uppercase tracking-wider">{review.businessName}</span>
                     </div>
                     
-                    <div className="flex items-center gap-1 mb-4">
+                    <div className="flex items-center gap-1 mb-3">
                       {[...Array(5)].map((_, i) => (
                         <Star
                           key={i}
-                          size={16}
-                          className={i < review.rating ? 'text-[#c8ff57] fill-[#c8ff57]' : 'text-slate-800'}
+                          size={12}
+                          className={i < review.rating ? 'text-yellow-400 fill-yellow-400' : 'text-slate-200'}
                         />
                       ))}
                     </div>
 
-                    <p className="text-slate-400 text-lg mb-6 italic leading-relaxed">"{review.comment}"</p>
+                    <p className="text-slate-600 text-sm mb-4 italic">"{review.comment}"</p>
                     
-                    <span className="text-[10px] font-black text-slate-600 uppercase tracking-widest">
+                    <span className="text-[10px] text-slate-400">
                       Submitted on {format(new Date(review.createdAt), 'MMM d, yyyy HH:mm')}
                     </span>
                   </div>
 
-                  <div className="flex md:flex-col gap-3 justify-end min-w-[140px]">
+                  <div className="flex md:flex-col gap-2 justify-end">
                     <button
                       onClick={() => verifyReview(review.id)}
-                      className="flex items-center justify-center gap-2 px-6 py-3 bg-[#c8ff57] text-black rounded-2xl text-xs font-black transition-all shadow-lg shadow-[#c8ff57]/10 hover:opacity-90"
+                      className="flex items-center justify-center gap-2 px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded-xl text-sm font-bold transition-colors"
                     >
                       <CheckCircle2 size={18} />
-                      VERIFY
+                      Verify
                     </button>
                     <button
                       onClick={() => deleteReview(review.id)}
-                      className="flex items-center justify-center gap-2 px-6 py-3 bg-white/5 text-slate-400 rounded-2xl text-xs font-black transition-all border border-white/10 hover:bg-white/10"
+                      className="flex items-center justify-center gap-2 px-4 py-2 bg-red-50 hover:bg-red-100 text-red-600 rounded-xl text-sm font-bold transition-colors"
                     >
                       <Trash2 size={18} />
-                      DELETE
+                      Delete
                     </button>
                   </div>
                 </div>
@@ -103,9 +97,9 @@ export default function Admin() {
             ))}
           </div>
         ) : (
-          <div className="bg-[#111] rounded-[40px] p-16 border border-white/5 text-center shadow-2xl">
-            <p className="text-white font-black text-xl mb-2">No pending reviews to verify.</p>
-            <p className="text-slate-500 font-medium">Great job keeping the loop clean!</p>
+          <div className="bg-white rounded-3xl p-12 border border-slate-100 text-center">
+            <p className="text-slate-500 font-medium">No pending reviews to verify.</p>
+            <p className="text-slate-400 text-sm mt-1">Great job keeping the loop clean!</p>
           </div>
         )}
       </section>

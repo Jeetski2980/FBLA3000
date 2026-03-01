@@ -4,9 +4,8 @@ import BusinessCard from '../components/BusinessCard';
 import { Search, Loader2, SlidersHorizontal } from 'lucide-react';
 
 export default function Explore() {
-  const { profile, toggleBookmark } = useProfile();
-  const { openPanel } = useUI();
-  const { zip, bookmarks = [] } = profile;
+  const { profile } = useProfile();
+  const { zip } = profile;
   const [businesses, setBusinesses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
@@ -28,42 +27,57 @@ export default function Explore() {
 
   const categories = ['Food', 'Retail', 'Services', 'Entertainment', 'Other'];
 
+  const [bookmarks, setBookmarks] = useState(() => {
+    const saved = localStorage.getItem('local_pulse_bookmarks');
+    return saved ? JSON.parse(saved) : [];
+  });
+
+  useEffect(() => {
+    localStorage.setItem('local_pulse_bookmarks', JSON.stringify(bookmarks));
+  }, [bookmarks]);
+
+  const toggleBookmark = (id) => {
+    setBookmarks(prev => prev.includes(id) ? prev.filter(b => b !== id) : [...prev, id]);
+  };
+
   const handleDeleteBusiness = (id) => {
     setBusinesses(prev => prev.filter(b => b.id !== id));
   };
 
+  const [showBookmarksOnly, setShowBookmarksOnly] = useState(false);
+
+  const displayedBusinesses = showBookmarksOnly 
+    ? businesses.filter(b => bookmarks.includes(b.id))
+    : businesses;
+
   return (
-    <div className="max-w-7xl mx-auto px-4 py-8">
-      <div className="mb-12 flex flex-col md:flex-row md:items-end justify-between gap-8">
+    <div className="max-w-5xl mx-auto px-4 py-8">
+      <div className="mb-10 flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div>
-          <h1 className="text-4xl font-black text-white mb-3 tracking-tight">Explore Local</h1>
-          <p className="text-slate-500 font-medium">Discover the best businesses in {zip}</p>
+          <h1 className="text-3xl font-bold text-slate-900 mb-2">Explore Local</h1>
+          <p className="text-slate-500">Discover the best businesses in {zip}</p>
         </div>
-        <div className="flex items-center gap-4">
-          <button
-            onClick={() => openPanel('BOOKMARKS')}
-            className="px-6 py-3 rounded-2xl text-xs font-black bg-white/5 border border-white/10 text-slate-400 hover:bg-white/10 transition-all uppercase tracking-widest"
-          >
-            View Bookmarks
-          </button>
-          <button
-            onClick={() => openPanel('SUBMIT_BUSINESS')}
-            className="px-6 py-3 rounded-2xl text-xs font-black bg-[#c8ff57] text-black shadow-lg shadow-[#c8ff57]/20 hover:opacity-90 transition-all uppercase tracking-widest"
-          >
-            Submit Business
-          </button>
-        </div>
+        <button
+          onClick={() => setShowBookmarksOnly(!showBookmarksOnly)}
+          className={`px-4 py-2 rounded-xl text-sm font-bold transition-all ${
+            showBookmarksOnly 
+              ? 'bg-primary text-white shadow-lg shadow-primary/20' 
+              : 'bg-white border border-slate-200 text-slate-600 hover:border-primary/30'
+          }`}
+        >
+          {showBookmarksOnly ? 'Showing Bookmarks' : 'View Bookmarks'}
+        </button>
       </div>
 
-      <div className="flex flex-col lg:flex-row gap-6 mb-12">
+      <div className="flex flex-col md:flex-row gap-4 mb-8">
         <div className="relative flex-1">
-          <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-600" size={20} />
+          <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
           <input
             type="text"
             placeholder="Search businesses..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full bg-[#111] border border-white/5 rounded-[24px] pl-14 pr-6 py-4 text-white focus:outline-none focus:ring-2 focus:ring-[#c8ff57]/20 shadow-2xl"
+            className="input pl-11"
           />
         </div>
         
@@ -71,35 +85,35 @@ export default function Explore() {
           <select
             value={category}
             onChange={(e) => setCategory(e.target.value)}
-            className="bg-[#111] border border-white/5 rounded-[20px] px-6 py-4 text-sm font-black text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#c8ff57]/20 shadow-2xl uppercase tracking-widest"
+            className="bg-white border border-slate-200 rounded-xl px-4 py-2 text-sm font-medium text-slate-600 focus:outline-none focus:ring-2 focus:ring-primary/20"
           >
-            <option value="" className="bg-[#111]">All Categories</option>
+            <option value="">All Categories</option>
             {categories.map(cat => (
-              <option key={cat} value={cat} className="bg-[#111]">{cat}</option>
+              <option key={cat} value={cat}>{cat}</option>
             ))}
           </select>
 
           <select
             value={sort}
             onChange={(e) => setSort(e.target.value)}
-            className="bg-[#111] border border-white/5 rounded-[20px] px-6 py-4 text-sm font-black text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#c8ff57]/20 shadow-2xl uppercase tracking-widest"
+            className="bg-white border border-slate-200 rounded-xl px-4 py-2 text-sm font-medium text-slate-600 focus:outline-none focus:ring-2 focus:ring-primary/20"
           >
-            <option value="Highest Rated" className="bg-[#111]">Highest Rated</option>
-            <option value="Lowest Rated" className="bg-[#111]">Lowest Rated</option>
-            <option value="Most Reviewed" className="bg-[#111]">Most Reviewed</option>
-            <option value="Alphabetical" className="bg-[#111]">Alphabetical</option>
+            <option value="Highest Rated">Highest Rated</option>
+            <option value="Lowest Rated">Lowest Rated</option>
+            <option value="Most Reviewed">Most Reviewed</option>
+            <option value="Alphabetical">Alphabetical</option>
           </select>
         </div>
       </div>
 
       {loading ? (
-        <div className="flex flex-col items-center justify-center py-24">
-          <Loader2 className="animate-spin text-[#c8ff57] mb-6" size={48} />
-          <p className="text-slate-500 font-black uppercase tracking-[0.2em] text-xs">Searching for local gems...</p>
+        <div className="flex flex-col items-center justify-center py-20">
+          <Loader2 className="animate-spin text-primary mb-4" size={40} />
+          <p className="text-slate-500 font-medium">Searching for local gems...</p>
         </div>
-      ) : businesses.length > 0 ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-          {businesses.map(business => (
+      ) : displayedBusinesses.length > 0 ? (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {displayedBusinesses.map(business => (
             <BusinessCard 
               key={business.id} 
               business={business} 
@@ -110,9 +124,13 @@ export default function Explore() {
           ))}
         </div>
       ) : (
-        <div className="text-center py-24 bg-[#111] rounded-[40px] border border-white/5 shadow-2xl">
-          <p className="text-slate-400 font-black uppercase tracking-widest text-sm mb-2">No businesses found</p>
-          <p className="text-slate-500 text-xs font-medium">Try adjusting your filters or search term.</p>
+        <div className="text-center py-20 bg-white rounded-3xl border border-slate-100">
+          <p className="text-slate-500 font-medium">
+            {showBookmarksOnly ? "You haven't bookmarked any businesses yet." : "No businesses found matching your criteria."}
+          </p>
+          <p className="text-slate-400 text-sm mt-1">
+            {showBookmarksOnly ? "Bookmark businesses you love to see them here!" : "Try adjusting your filters or search term."}
+          </p>
         </div>
       )}
     </div>

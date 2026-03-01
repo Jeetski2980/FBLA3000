@@ -1,26 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useProfile } from '../context/ProfileContext';
-import { useUI } from '../context/UIContext';
-import { Star, MapPin, Globe, Loader2, MessageSquare, CheckCircle2, Send, User, PlusCircle, Tag, Megaphone, Info, Bookmark } from 'lucide-react';
+import { Star, MapPin, Globe, Loader2, MessageSquare, CheckCircle2, Send, User, PlusCircle, Tag, Megaphone, Info } from 'lucide-react';
 import ReviewCard from '../components/ReviewCard';
 import FeedCard from '../components/FeedCard';
 import { VERIFICATION_QUESTIONS } from '../constants';
 
 export default function BusinessProfile() {
   const { id } = useParams();
-  const { profile, toggleBookmark } = useProfile();
-  const { showToast } = useUI();
+  const { profile } = useProfile();
   const [business, setBusiness] = useState(null);
   const [reviews, setReviews] = useState([]);
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   
-  const isBookmarked = profile.bookmarks?.includes(id);
-
   // Review form state
   const [rating, setRating] = useState(5);
   const [comment, setComment] = useState('');
+  const [reviewUsername, setReviewUsername] = useState(profile.username || '');
   const [verification, setVerification] = useState('');
   const [currentQuestion, setCurrentQuestion] = useState({ q: '', a: '' });
   const [submitting, setSubmitting] = useState(false);
@@ -41,6 +38,7 @@ export default function BusinessProfile() {
 
   useEffect(() => {
     fetchData();
+    // Set a random verification question
     const randomQ = VERIFICATION_QUESTIONS[Math.floor(Math.random() * VERIFICATION_QUESTIONS.length)];
     setCurrentQuestion(randomQ);
   }, [id]);
@@ -57,11 +55,6 @@ export default function BusinessProfile() {
       setPosts(pData);
       setLoading(false);
     }).catch(() => setLoading(false));
-  };
-
-  const handleBookmark = () => {
-    toggleBookmark(id);
-    showToast(isBookmarked ? 'Bookmark removed' : 'Bookmarked! 🔖');
   };
 
   const submitReview = async (e) => {
@@ -92,9 +85,10 @@ export default function BusinessProfile() {
         setMessage({ type: 'success', text: 'Review submitted! It is now live.' });
         setComment('');
         setVerification('');
+        // New question for next review
         const randomQ = VERIFICATION_QUESTIONS[Math.floor(Math.random() * VERIFICATION_QUESTIONS.length)];
         setCurrentQuestion(randomQ);
-        fetchData();
+        fetchData(); // Refresh reviews
       } else {
         setMessage({ type: 'error', text: data.error || 'Failed to submit review' });
       }
@@ -126,7 +120,7 @@ export default function BusinessProfile() {
       if (res.ok) {
         setPostData({ type: 'UPDATE', title: '', body: '', imageUrl: '', couponCode: '', expiresAt: '' });
         setShowPostForm(false);
-        fetchData();
+        fetchData(); // Refresh posts
       }
     } catch (err) {
       console.error(err);
@@ -146,20 +140,20 @@ export default function BusinessProfile() {
   if (loading) {
     return (
       <div className="flex flex-col items-center justify-center py-40">
-        <Loader2 className="animate-spin text-[#c8ff57] mb-4" size={40} />
+        <Loader2 className="animate-spin text-primary mb-4" size={40} />
         <p className="text-slate-500 font-medium">Loading business profile...</p>
       </div>
     );
   }
 
-  if (!business) return <div className="text-center py-20 text-white">Business not found.</div>;
+  if (!business) return <div className="text-center py-20">Business not found.</div>;
 
   return (
     <div className="max-w-5xl mx-auto px-4 py-8">
       {/* Header Section */}
-      <div className="bg-[#111] rounded-[40px] p-8 border border-white/5 shadow-2xl mb-8">
-        <div className="flex flex-col md:flex-row gap-10 items-start">
-          <div className="w-full md:w-1/3 aspect-square rounded-[32px] overflow-hidden bg-white/5 flex items-center justify-center relative">
+      <div className="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm mb-8">
+        <div className="flex flex-col md:flex-row gap-8 items-start">
+          <div className="w-full md:w-1/3 aspect-square rounded-2xl overflow-hidden bg-slate-100 flex items-center justify-center">
             {business.imageUrl ? (
               <img
                 src={business.imageUrl}
@@ -168,74 +162,60 @@ export default function BusinessProfile() {
                 referrerPolicy="no-referrer"
               />
             ) : (
-              <div className="flex flex-col items-center justify-center text-slate-700">
+              <div className="flex flex-col items-center justify-center text-slate-300">
                 <PlusCircle size={48} className="mb-2 opacity-20" />
-                <span className="text-xs font-bold uppercase tracking-widest opacity-40">No Image</span>
+                <span className="text-xs font-bold uppercase tracking-widest opacity-40">No Image Provided</span>
               </div>
             )}
-            <button 
-              onClick={handleBookmark}
-              className={`absolute top-4 right-4 p-3 rounded-2xl backdrop-blur-md transition-all border ${
-                isBookmarked 
-                  ? 'bg-[#c8ff57] text-black border-[#c8ff57] shadow-lg' 
-                  : 'bg-black/40 text-white border-white/20 hover:bg-black/60'
-              }`}
-            >
-              <Bookmark size={20} fill={isBookmarked ? "currentColor" : "none"} />
-            </button>
           </div>
           
           <div className="flex-1">
-            <div className="flex items-center justify-between mb-6">
-              <span className="text-[10px] font-black text-black uppercase tracking-[0.2em] bg-[#c8ff57] px-4 py-1.5 rounded-full shadow-lg shadow-[#c8ff57]/10">
+            <div className="flex items-center justify-between mb-4">
+              <span className="text-xs font-bold text-primary uppercase tracking-widest bg-primary/10 px-3 py-1 rounded-full">
                 {business.category}
               </span>
               {business.createdByUsername === (profile.username || 'Anonymous') && (
                 <button 
                   onClick={() => setShowPostForm(!showPostForm)}
-                  className="text-xs font-bold text-[#c8ff57] flex items-center gap-2 hover:opacity-80 transition-opacity"
+                  className="text-xs font-bold text-secondary flex items-center gap-1 hover:underline"
                 >
-                  <Megaphone size={16} />
-                  Post Update
+                  <Megaphone size={14} />
+                  Business Owner? Post Update
                 </button>
               )}
             </div>
 
-            <h1 className="text-5xl font-black text-white mb-4 tracking-tight">{business.name}</h1>
+            <h1 className="text-4xl font-black mb-2" style={{ color: '#111111' }}>{business.name}</h1>
             
-            <div className="flex items-center gap-6 mb-8">
-              <div className="flex items-center gap-2 bg-white/5 px-4 py-2 rounded-2xl border border-white/10">
-                <Star size={20} className="text-[#c8ff57] fill-[#c8ff57]" />
-                <span className="text-xl font-black text-white">{business.avgRating.toFixed(1)}</span>
+            <div className="flex items-center gap-4 mb-6">
+              <div className="flex items-center gap-1">
+                <Star size={20} className="text-yellow-400 fill-yellow-400" />
+                <span className="text-lg font-bold text-slate-900">{business.avgRating.toFixed(1)}</span>
               </div>
-              <div className="flex items-center gap-2 text-slate-500">
-                <MessageSquare size={18} />
-                <span className="text-sm font-bold uppercase tracking-widest">{business.reviewCount} Reviews</span>
+              <div className="flex items-center gap-1 text-slate-400">
+                <MessageSquare size={16} />
+                <span className="text-sm font-bold uppercase tracking-tighter">{business.reviewCount} Reviews</span>
               </div>
             </div>
 
-            <p className="text-slate-400 text-lg mb-10 leading-relaxed max-w-2xl">
+            <p className="text-slate-600 mb-8 leading-relaxed">
               {business.description}
             </p>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-              <div className="flex items-center gap-4 text-slate-300">
-                <div className="p-3 bg-white/5 rounded-2xl border border-white/10">
-                  <MapPin size={20} className="text-[#c8ff57]" />
-                </div>
-                <span className="font-medium">{business.address || business.zip}</span>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="flex items-center gap-3 text-slate-500 text-sm">
+                <MapPin size={18} className="text-primary" />
+                {business.address || business.zip}
               </div>
               {business.website && (
                 <a
                   href={business.website}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-4 text-slate-300 hover:text-[#c8ff57] transition-colors"
+                  className="flex items-center gap-3 text-secondary text-sm font-medium hover:underline"
                 >
-                  <div className="p-3 bg-white/5 rounded-2xl border border-white/10">
-                    <Globe size={20} className="text-[#c8ff57]" />
-                  </div>
-                  <span className="font-medium underline underline-offset-4">{business.website.replace(/^https?:\/\//, '').replace(/\/$/, '')}</span>
+                  <Globe size={18} />
+                  {business.website.replace(/^https?:\/\//, '').replace(/\/$/, '')}
                 </a>
               )}
             </div>
@@ -245,65 +225,65 @@ export default function BusinessProfile() {
 
       {/* Business Owner Post Form */}
       {showPostForm && (
-        <div className="bg-[#111] border border-[#c8ff57]/30 rounded-[40px] p-10 mb-8 shadow-2xl">
-          <h2 className="text-2xl font-black text-white mb-8 flex items-center gap-3">
-            <Megaphone className="text-[#c8ff57]" size={28} />
+        <div className="bg-secondary/5 border border-secondary/20 rounded-3xl p-8 mb-8">
+          <h2 className="text-xl font-bold text-slate-900 mb-6 flex items-center gap-2">
+            <Megaphone className="text-secondary" />
             Post to Community Feed
           </h2>
-          <form onSubmit={submitPost} className="space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <form onSubmit={submitPost} className="space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] mb-3">Post Type</label>
+                <label className="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Post Type</label>
                 <select 
                   value={postData.type}
                   onChange={(e) => setPostData({...postData, type: e.target.value})}
-                  className="w-full bg-white/5 border border-white/10 rounded-2xl p-4 text-white focus:outline-none focus:ring-2 focus:ring-[#c8ff57]/20"
+                  className="input"
                 >
-                  <option value="UPDATE" className="bg-[#111]">General Update</option>
-                  <option value="DEAL" className="bg-[#111]">Special Deal / Coupon</option>
+                  <option value="UPDATE">General Update</option>
+                  <option value="DEAL">Special Deal / Coupon</option>
                 </select>
               </div>
               <div>
-                <label className="block text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] mb-3">Title</label>
+                <label className="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Title</label>
                 <input 
                   type="text"
                   required
                   value={postData.title}
                   onChange={(e) => setPostData({...postData, title: e.target.value})}
-                  className="w-full bg-white/5 border border-white/10 rounded-2xl p-4 text-white focus:outline-none focus:ring-2 focus:ring-[#c8ff57]/20"
+                  className="input"
                   placeholder="e.g. New Seasonal Menu!"
                 />
               </div>
             </div>
             <div>
-              <label className="block text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] mb-3">Message</label>
+              <label className="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Message</label>
               <textarea 
                 required
                 value={postData.body}
                 onChange={(e) => setPostData({...postData, body: e.target.value})}
-                className="w-full bg-white/5 border border-white/10 rounded-2xl p-4 text-white focus:outline-none focus:ring-2 focus:ring-[#c8ff57]/20 min-h-[120px]"
+                className="input min-h-[100px]"
                 placeholder="Share the details with your neighbors..."
               />
             </div>
             {postData.type === 'DEAL' && (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] mb-3">Coupon Code (Optional)</label>
+                  <label className="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Coupon Code (Optional)</label>
                   <input 
                     type="text"
                     value={postData.couponCode}
                     onChange={(e) => setPostData({...postData, couponCode: e.target.value})}
-                    className="w-full bg-white/5 border border-white/10 rounded-2xl p-4 text-white focus:outline-none focus:ring-2 focus:ring-[#c8ff57]/20"
+                    className="input"
                     placeholder="e.g. LOCAL20"
                   />
                 </div>
                 <div>
-                  <label className="block text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] mb-3">Expires At (Optional)</label>
+                  <label className="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Expires At (Optional)</label>
                   <input 
                     type="date"
                     value={postData.expiresAt}
                     onChange={(e) => setPostData({...postData, expiresAt: e.target.value})}
-                    className="w-full bg-white/5 border border-white/10 rounded-2xl p-4 text-white focus:outline-none focus:ring-2 focus:ring-[#c8ff57]/20"
+                    className="input"
                   />
                 </div>
               </div>
@@ -311,24 +291,28 @@ export default function BusinessProfile() {
             <button 
               type="submit" 
               disabled={postSubmitting}
-              className="w-full flex items-center justify-center gap-3 font-black py-5 rounded-2xl transition-all bg-[#c8ff57] text-black shadow-lg shadow-[#c8ff57]/20 hover:opacity-90"
+              className={`w-full flex items-center justify-center gap-2 font-bold py-4 rounded-2xl transition-all ${
+                postData.type === 'DEAL' 
+                  ? 'bg-brand-green text-slate-900 hover:opacity-88 shadow-lg shadow-brand-green/20' 
+                  : 'btn-primary'
+              }`}
             >
-              {postSubmitting ? <Loader2 className="animate-spin" /> : (postData.type === 'DEAL' ? <Tag size={20} /> : <PlusCircle size={20} />)}
+              {postSubmitting ? <Loader2 className="animate-spin" /> : (postData.type === 'DEAL' ? <Tag /> : <PlusCircle />)}
               {postData.type === 'DEAL' ? 'Publish Deal' : 'Publish to Feed'}
             </button>
           </form>
         </div>
       )}
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Left Column: Posts & Deals */}
-        <div className="lg:col-span-2 space-y-10">
+        <div className="lg:col-span-2 space-y-8">
           <section>
-            <h2 className="text-2xl font-black text-white mb-8 flex items-center gap-3">
-              Updates & Deals
+            <h2 className="text-2xl font-bold text-slate-900 mb-6 flex items-center gap-2">
+              Recent Updates & Deals
             </h2>
             {posts.length > 0 ? (
-              <div className="space-y-8">
+              <div className="space-y-6">
                 {posts.map(post => (
                   <FeedCard 
                     key={post.id} 
@@ -339,7 +323,7 @@ export default function BusinessProfile() {
                 ))}
               </div>
             ) : (
-              <div className="bg-[#111] rounded-[32px] p-12 border border-white/5 text-center text-slate-500">
+              <div className="bg-white rounded-2xl p-8 border border-slate-100 text-center text-slate-500">
                 No recent updates from this business.
               </div>
             )}
@@ -347,48 +331,48 @@ export default function BusinessProfile() {
         </div>
 
         {/* Right Column: Reviews */}
-        <div className="space-y-10">
+        <div className="space-y-8">
           <section>
-            <h2 className="text-2xl font-black text-white mb-8 flex items-center gap-3">
-              Reviews
+            <h2 className="text-2xl font-bold text-slate-900 mb-6 flex items-center gap-2">
+              Community Reviews
             </h2>
             
-            <div className="bg-[#111] rounded-[32px] p-8 border border-white/5 shadow-xl mb-8">
-              <h3 className="font-black text-white mb-6 uppercase tracking-widest text-sm">Leave a Review</h3>
-              <form onSubmit={submitReview} className="space-y-6">
+            <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm mb-6">
+              <h3 className="font-bold text-slate-900 mb-4">Leave a Review</h3>
+              <form onSubmit={submitReview} className="space-y-4">
                 <div>
-                  <label className="block text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] mb-3">Rating</label>
+                  <label className="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Rating</label>
                   <div className="flex gap-2">
                     {[1, 2, 3, 4, 5].map(star => (
                       <button
                         key={star}
                         type="button"
                         onClick={() => setRating(star)}
-                        className={`p-1 transition-colors ${star <= rating ? 'text-[#c8ff57]' : 'text-slate-800'}`}
+                        className={`p-1 transition-colors ${star <= rating ? 'text-yellow-400' : 'text-slate-200'}`}
                       >
-                        <Star size={28} fill={star <= rating ? 'currentColor' : 'none'} />
+                        <Star size={24} fill={star <= rating ? 'currentColor' : 'none'} />
                       </button>
                     ))}
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] mb-3">Comment</label>
+                  <label className="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Comment</label>
                   <textarea
                     value={comment}
                     onChange={(e) => setComment(e.target.value)}
                     required
-                    className="w-full bg-white/5 border border-white/10 rounded-2xl p-4 text-white focus:outline-none focus:ring-2 focus:ring-[#c8ff57]/20 min-h-[120px] text-sm"
+                    className="input min-h-[100px] text-sm"
                     placeholder="Share your experience..."
                   />
                 </div>
 
                 <div>
-                  <div className="flex items-center gap-2 mb-3">
-                    <label className="block text-[10px] font-black text-slate-500 uppercase tracking-[0.2em]">Verification: {currentQuestion.q}</label>
+                  <div className="flex items-center gap-1 mb-2">
+                    <label className="block text-xs font-bold text-slate-400 uppercase tracking-widest">Verification: {currentQuestion.q}</label>
                     <div className="group relative">
-                      <Info size={14} className="text-slate-600 cursor-help" />
-                      <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 w-56 p-3 bg-slate-900 text-white text-[10px] rounded-xl opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity z-50 shadow-2xl border border-white/10">
+                      <Info size={14} className="text-slate-300 cursor-help" />
+                      <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-48 p-2 bg-slate-800 text-white text-[10px] rounded-lg opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity z-50">
                         Verification is used to prevent bot reviews and ensure authentic community feedback.
                       </div>
                     </div>
@@ -398,14 +382,14 @@ export default function BusinessProfile() {
                     value={verification}
                     onChange={(e) => setVerification(e.target.value)}
                     required
-                    className="w-full bg-white/5 border border-white/10 rounded-2xl p-4 text-white focus:outline-none focus:ring-2 focus:ring-[#c8ff57]/20 text-sm"
+                    className="input text-sm"
                     placeholder="Answer here"
                   />
                 </div>
 
                 {message.text && (
-                  <div className={`p-4 rounded-2xl text-xs font-bold ${
-                    message.type === 'success' ? 'bg-green-500/10 text-green-400 border border-green-500/20' : 'bg-red-500/10 text-red-400 border border-red-500/20'
+                  <div className={`p-3 rounded-xl text-xs font-medium ${
+                    message.type === 'success' ? 'bg-green-50 text-green-600 border border-green-100' : 'bg-red-50 text-red-600 border border-red-100'
                   }`}>
                     {message.text}
                   </div>
@@ -414,15 +398,15 @@ export default function BusinessProfile() {
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="w-full flex items-center justify-center gap-3 font-black py-4 rounded-2xl transition-all bg-[#c8ff57] text-black shadow-lg shadow-[#c8ff57]/20 hover:opacity-90"
+                  className="btn-primary w-full flex items-center justify-center gap-2"
                 >
-                  {submitting ? <Loader2 className="animate-spin" size={20} /> : <Send size={20} />}
+                  {submitting ? <Loader2 className="animate-spin" size={18} /> : <Send size={18} />}
                   Submit Review
                 </button>
               </form>
             </div>
 
-            <div className="space-y-6">
+            <div className="space-y-4">
               {reviews.length > 0 ? (
                 reviews.map(review => (
                   <ReviewCard 
@@ -435,7 +419,7 @@ export default function BusinessProfile() {
                   />
                 ))
               ) : (
-                <div className="bg-[#111] rounded-[32px] p-12 border border-white/5 text-center text-slate-500">
+                <div className="bg-white rounded-2xl p-8 border border-slate-100 text-center text-slate-500">
                   No reviews yet. Be the first!
                 </div>
               )}

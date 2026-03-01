@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { useProfile } from '../context/ProfileContext';
-import { useUI } from '../context/UIContext';
 import FeedCard from '../components/FeedCard';
 import { Loader2, Filter, Sparkles, ArrowRight } from 'lucide-react';
 
 export default function Feed() {
   const { profile } = useProfile();
-  const { openPanel } = useUI();
   const { zip } = profile;
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -35,75 +34,72 @@ export default function Feed() {
   return (
     <div className="max-w-2xl mx-auto px-4 py-8">
       {/* AI Recommendations Hero */}
-      <div className="bg-[#111] border border-white/5 rounded-[40px] p-10 mb-16 text-white shadow-2xl relative overflow-hidden group">
-        <div className="absolute top-0 right-0 w-80 h-80 bg-[#c8ff57]/5 rounded-full -translate-y-1/2 translate-x-1/2 blur-[100px] group-hover:bg-[#c8ff57]/10 transition-all duration-700" />
+      <div className="bg-gradient-to-br from-primary to-secondary rounded-3xl p-8 mb-12 text-white shadow-xl relative overflow-hidden group">
+        <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/2 blur-3xl group-hover:bg-white/20 transition-all duration-500" />
         
         <div className="relative z-10">
-          <div className="flex items-center gap-3 mb-6">
-            <div className="bg-white/5 p-3 rounded-2xl backdrop-blur-xl border border-white/10 shadow-2xl">
-              <Sparkles size={28} className="text-[#c8ff57]" />
+          <div className="flex items-center gap-2 mb-4">
+            <div className="bg-white/20 p-2 rounded-xl backdrop-blur-sm">
+              <Sparkles size={24} />
             </div>
-            <span className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">AI Powered Discovery</span>
+            <span className="text-xs font-bold uppercase tracking-widest opacity-80">AI Powered Discovery</span>
           </div>
           
-          <h2 className="text-4xl font-black mb-4 leading-tight text-white tracking-tight">
+          <h2 className="text-3xl font-bold mb-3 leading-tight">
             Discover your next favorite spot in {zip || 'your area'}
           </h2>
           
-          <p className="text-slate-400 mb-10 max-w-md leading-relaxed font-medium">
+          <p className="text-white/80 mb-8 max-w-md leading-relaxed">
             Our AI analyzes local businesses and your interests to find the perfect matches just for you.
           </p>
           
-          <button 
-            onClick={() => openPanel('RECOMMENDATIONS')}
-            className="inline-flex items-center justify-center gap-3 bg-[#c8ff57] text-black px-8 py-4 rounded-2xl font-black shadow-lg shadow-[#c8ff57]/20 hover:opacity-90 transition-all uppercase tracking-widest text-sm"
+          <Link 
+            to="/profile" 
+            className="inline-flex items-center gap-2 bg-white text-primary px-6 py-3 rounded-2xl font-bold shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all"
           >
             Get Recommendations
-            <ArrowRight size={20} />
-          </button>
+            <ArrowRight size={18} />
+          </Link>
         </div>
       </div>
 
       {/* Mission Section */}
-      <div className="max-w-[700px] mx-auto mb-24 text-center">
-        <div className="text-[10px] font-black text-slate-600 uppercase tracking-[0.4em] mb-6">
-          Our Mission
-        </div>
-        <div className="bg-[#111] border-l-8 border-[#c8ff57] p-10 md:p-12 rounded-r-[40px] shadow-2xl relative overflow-hidden">
-          <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-[#c8ff57]/5 to-transparent pointer-events-none" />
-          <p className="text-2xl leading-[1.6] text-white italic font-serif relative z-10">
-            "LocalPulse exists to rebuild the invisible thread that connects communities to the businesses that built them, giving every local shop, service, and hidden gem the visibility they deserve, and giving every resident a reason to look up from the algorithm and discover what's right around the corner."
-          </p>
-        </div>
+      <div className="bg-white rounded-3xl p-8 mb-12 border border-slate-100 shadow-sm">
+        <h2 className="text-xl font-bold text-slate-900 mb-4">Our Mission</h2>
+        <p className="text-slate-600 leading-relaxed">
+          Local Pulse connects local businesses with nearby customers. 
+          Our mission is to help small businesses share updates, deals, and events with their community — completely free. 
+          Unlike other platforms, Local Pulse does not charge listing fees or advertising costs.
+        </p>
       </div>
 
-      <div className="flex items-center justify-between mb-10">
+      <div className="flex items-center justify-between mb-8">
         <div>
-          <h1 className="text-4xl font-black text-white tracking-tight">Community Feed</h1>
-          <p className="text-slate-500 font-medium mt-1">What's happening in {zip}</p>
+          <h1 className="text-3xl font-bold text-slate-900">Community Feed</h1>
+          <p className="text-slate-500">What's happening in {zip}</p>
         </div>
         
-        <div className="flex items-center gap-3">
-          <Filter size={18} className="text-slate-600" />
+        <div className="flex items-center gap-2">
+          <Filter size={16} className="text-slate-400" />
           <select
             value={type}
             onChange={(e) => setType(e.target.value)}
-            className="bg-[#111] border border-white/5 rounded-xl px-4 py-2 text-xs font-black text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#c8ff57]/20 shadow-2xl uppercase tracking-widest"
+            className="bg-white border border-slate-200 rounded-lg px-3 py-1.5 text-sm font-medium text-slate-600 focus:outline-none focus:ring-2 focus:ring-primary/20"
           >
-            <option value="" className="bg-[#111]">All Posts</option>
-            <option value="DEAL" className="bg-[#111]">Deals Only</option>
-            <option value="UPDATE" className="bg-[#111]">Updates Only</option>
+            <option value="">All Posts</option>
+            <option value="DEAL">Deals Only</option>
+            <option value="UPDATE">Updates Only</option>
           </select>
         </div>
       </div>
 
       {loading ? (
-        <div className="flex flex-col items-center justify-center py-24">
-          <Loader2 className="animate-spin text-[#c8ff57] mb-6" size={48} />
-          <p className="text-slate-500 font-black uppercase tracking-[0.2em] text-xs">Loading your neighborhood...</p>
+        <div className="flex flex-col items-center justify-center py-20">
+          <Loader2 className="animate-spin text-primary mb-4" size={40} />
+          <p className="text-slate-500 font-medium">Loading your neighborhood...</p>
         </div>
       ) : posts.length > 0 ? (
-        <div className="space-y-8">
+        <div className="space-y-6">
           {posts.map(post => (
             <FeedCard 
               key={post.id} 
@@ -114,9 +110,9 @@ export default function Feed() {
           ))}
         </div>
       ) : (
-        <div className="text-center py-24 bg-[#111] rounded-[40px] border border-white/5 shadow-2xl">
-          <p className="text-slate-400 font-black uppercase tracking-widest text-sm mb-2">No posts found</p>
-          <p className="text-slate-500 text-xs font-medium">Be the first to share something in your area!</p>
+        <div className="text-center py-20 bg-white rounded-3xl border border-slate-100">
+          <p className="text-slate-500 font-medium">No posts found in this area yet.</p>
+          <p className="text-slate-400 text-sm mt-1">Be the first to share something!</p>
         </div>
       )}
     </div>
