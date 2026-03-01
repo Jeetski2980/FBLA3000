@@ -1,12 +1,12 @@
 [
   {
-    "id": "b3",
-    "name": "Table 5",
+    "id": "b1",
+    "name": "Sakura Sushi",
     "category": "Food",
-    "description": "Upscale yet casual restaurant in downtown Northville known for seasonal American dishes, craft cocktails, and a cozy atmosphere.",
-    "zip": "48167",
-    "address": "126 E Main St, Northville, MI",
-    "website": "https://table5northville.com",
+    "description": "Authentic Japanese sushi with a modern twist. Best known for our spicy tuna rolls and student lunch specials.",
+    "zip": "48187",
+    "address": "123 Main St, Canton, MI",
+    "website": "https://sakurasushi.com",
     "createdAt": "2026-01-01T00:00:00.000Z"
   },
   {
