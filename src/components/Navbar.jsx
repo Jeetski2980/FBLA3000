@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useProfile } from '../context/ProfileContext';
-import { Home, Compass, Tag, User, PlusCircle, MapPin } from 'lucide-react';
+import { Home, Compass, Tag, User, PlusCircle, MapPin, Sparkles } from 'lucide-react';
 
 export default function Navbar() {
   const { profile, updateProfile } = useProfile();
