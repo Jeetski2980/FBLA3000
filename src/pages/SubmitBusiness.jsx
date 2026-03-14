@@ -10,9 +10,11 @@ export default function SubmitBusiness() {
     name: '',
     category: 'Food',
     address: '',
+    zip: profile.zip || '',
     phone: '',
     website: '',
     description: '',
+    business_image: '',
     username: profile.username || ''
   });
   const [loading, setLoading] = useState(false);
@@ -83,7 +85,7 @@ export default function SubmitBusiness() {
         <div className="w-20 h-20 bg-white/10 rounded-[32px] flex items-center justify-center mx-auto mb-6 border border-white/20">
           <Building2 className="text-white/50" size={40} />
         </div>
-        <h1 className="text-4xl font-black text-white mb-3 tracking-tight">Submit Business</h1>
+        <h1 tabIndex={0} className="text-4xl font-black text-white mb-3 tracking-tight">Submit Business</h1>
         <p className="text-white/70 font-medium">List your business in our local directory.</p>
       </div>
 
@@ -127,6 +129,19 @@ export default function SubmitBusiness() {
           </div>
 
           <div>
+            <label className="block text-[10px] font-black text-white/50 uppercase tracking-[0.2em] mb-3">ZIP Code</label>
+            <input
+              type="text"
+              required
+              value={formData.zip}
+              onChange={(e) => setFormData({ ...formData, zip: e.target.value })}
+              className="w-full bg-white/5 border border-white/10 rounded-2xl p-4 text-white text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 placeholder:text-white/20"
+              placeholder="e.g. 90210"
+              maxLength={5}
+            />
+          </div>
+
+          <div>
             <label className="block text-[10px] font-black text-white/50 uppercase tracking-[0.2em] mb-3">Phone Number</label>
             <input
               type="text"
@@ -157,6 +172,14 @@ export default function SubmitBusiness() {
               onChange={(e) => setFormData({ ...formData, description: e.target.value })}
               className="w-full bg-white/5 border border-white/10 rounded-2xl p-4 text-white text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 min-h-[140px] placeholder:text-white/20"
               placeholder="Tell the community about your business..."
+            />
+          </div>
+
+          <div>
+            <ImageUpload
+              label="Business Image"
+              value={formData.business_image}
+              onChange={(url) => setFormData({ ...formData, business_image: url })}
             />
           </div>
 

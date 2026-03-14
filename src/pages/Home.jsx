@@ -5,7 +5,7 @@ export default function Home() {
   return (
     <div className="max-w-4xl mx-auto px-4 py-16">
       <div className="text-center mb-20">
-        <h1 className="text-6xl font-black text-white mb-6 tracking-tighter">
+        <h1 tabIndex={0} className="text-6xl font-black text-white mb-6 tracking-tighter">
           LocalPulse
         </h1>
         <p className="text-xl text-white/70 font-medium max-w-2xl mx-auto leading-relaxed">

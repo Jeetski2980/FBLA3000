@@ -132,10 +132,6 @@ export default function BusinessProfile() {
     setPosts(prev => prev.map(p => p.id === updated.id ? updated : p));
   };
 
-  const handleDeletePost = (id) => {
-    setPosts(prev => prev.filter(p => p.id !== id));
-  };
-
   if (loading) {
     return (
       <div className="flex flex-col items-center justify-center py-40">
@@ -186,7 +182,7 @@ export default function BusinessProfile() {
               )}
             </div>
 
-            <h1 className="text-5xl font-black text-white mb-4 tracking-tight">{business.name}</h1>
+            <h1 tabIndex={0} className="text-5xl font-black text-white mb-4 tracking-tight">{business.name}</h1>
             
             <div className="flex items-center gap-6 mb-8">
               <div className="flex items-center gap-2 bg-white/10 px-4 py-2 rounded-2xl border border-white/20">
@@ -318,7 +314,6 @@ export default function BusinessProfile() {
                   <FeedCard 
                     key={post.id} 
                     post={{ ...post, businessName: business.name, businessCategory: business.category }} 
-                    onDelete={handleDeletePost}
                     onUpdate={handleUpdatePost}
                   />
                 ))}

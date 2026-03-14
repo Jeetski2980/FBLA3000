@@ -26,15 +26,11 @@ export default function Feed() {
     setPosts(prev => prev.map(p => p.id === updated.id ? updated : p));
   };
 
-  const handleDeletePost = (id) => {
-    setPosts(prev => prev.filter(p => p.id !== id));
-  };
-
   return (
     <div className="max-w-2xl mx-auto px-4 py-8">
       <div className="flex items-center justify-between mb-10">
         <div>
-          <h1 className="text-4xl font-black text-white tracking-tight">Community Feed</h1>
+          <h1 tabIndex={0} className="text-4xl font-black text-white tracking-tight">Community Feed</h1>
           <p className="text-white/70 font-medium mt-1">What's happening in {zip}</p>
         </div>
         
@@ -63,7 +59,6 @@ export default function Feed() {
             <FeedCard 
               key={post.id} 
               post={post} 
-              onDelete={handleDeletePost}
               onUpdate={handleUpdatePost}
             />
           ))}

@@ -27,7 +27,7 @@ export default function Profile() {
               <User size={56} className="text-white/20" />
             </div>
             
-            <h1 className="text-3xl font-black text-white mb-2 tracking-tight">
+            <h1 tabIndex={0} className="text-3xl font-black text-white mb-2 tracking-tight">
               {profile.username ? `@${profile.username}` : 'Anonymous User'}
             </h1>
             

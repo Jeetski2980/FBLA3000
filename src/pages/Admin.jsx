@@ -35,7 +35,7 @@ export default function Admin() {
   return (
     <div className="max-w-5xl mx-auto px-4 py-8">
       <div className="mb-12">
-        <h1 className="text-4xl font-black text-white flex items-center gap-4 tracking-tight">
+        <h1 tabIndex={0} className="text-4xl font-black text-white flex items-center gap-4 tracking-tight">
           <ShieldCheck className="text-white/50" size={40} />
           Admin Panel
         </h1>

@@ -25,14 +25,10 @@ export default function Deals() {
     setPosts(prev => prev.map(p => p.id === updated.id ? updated : p));
   };
 
-  const handleDeleteDeal = (id) => {
-    setPosts(prev => prev.filter(p => p.id !== id));
-  };
-
   return (
     <div className="max-w-2xl mx-auto px-4 py-8">
       <div className="mb-12">
-        <h1 className="text-4xl font-black text-white flex items-center gap-4 tracking-tight">
+        <h1 tabIndex={0} className="text-4xl font-black text-white flex items-center gap-4 tracking-tight">
           <Tag className="text-white/50" size={40} />
           Local Deals
         </h1>
@@ -50,7 +46,6 @@ export default function Deals() {
             <FeedCard 
               key={post.id} 
               post={post} 
-              onDelete={handleDeleteDeal}
               onUpdate={handleUpdateDeal}
             />
           ))}

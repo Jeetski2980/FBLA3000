@@ -4,22 +4,11 @@ import { Tag, Calendar, ArrowRight, MapPin, Edit2, Trash2, Check, X, Loader2 } f
 import { format } from 'date-fns';
 import ImageUpload from './ImageUpload';
 
-export default function FeedCard({ post, onDelete, onUpdate }) {
+export default function FeedCard({ post, onUpdate }) {
   const isDeal = post.type === 'DEAL';
   const [isEditing, setIsEditing] = useState(false);
   const [editData, setEditData] = useState({ ...post });
   const [isSaving, setIsSaving] = useState(false);
-
-  const handleDelete = async () => {
-    try {
-      const res = await fetch(`/api/posts/${post.id}`, { method: 'DELETE' });
-      if (res.ok && onDelete) {
-        onDelete(post.id);
-      }
-    } catch (err) {
-      console.error('Failed to delete post:', err);
-    }
-  };
 
   const handleSave = async () => {
     setIsSaving(true);
@@ -154,19 +143,13 @@ export default function FeedCard({ post, onDelete, onUpdate }) {
   }
 
   return (
-    <div className={`group relative border border-white/20 rounded-[40px] overflow-hidden transition-all duration-500 shadow-2xl hover:border-primary/40 ${isDeal ? 'bg-white/10 p-8' : 'bg-white/10 p-6'}`}>
+    <div className={`group relative border border-white/20 rounded-[40px] overflow-hidden transition-all duration-500 shadow-2xl hover:border-primary/40 ${isDeal ? 'bg-[#6de3c2] p-8' : 'bg-white/10 p-6'}`}>
       <div className={`absolute ${isDeal ? 'bottom-8 right-8' : 'top-6 right-6'} z-20 flex gap-2 opacity-0 group-hover:opacity-100 transition-all translate-y-2 group-hover:translate-y-0`}>
         <button
           onClick={() => setIsEditing(true)}
           className="bg-white/5 text-white/50 text-[10px] font-black uppercase tracking-widest px-4 py-2 rounded-xl flex items-center gap-2 border border-white/20 hover:bg-white/10 transition-all active:scale-95"
         >
           <Edit2 size={14} /> {isDeal ? 'Edit Deal' : 'Edit'}
-        </button>
-        <button
-          onClick={handleDelete}
-          className="bg-red-500/10 hover:bg-red-500 text-red-500 hover:text-white text-[10px] font-black uppercase tracking-widest px-4 py-2 rounded-xl flex items-center gap-2 border border-red-500/20 hover:border-red-500 transition-all active:scale-95"
-        >
-          <Trash2 size={14} /> {isDeal ? 'Delete Deal' : 'Delete'}
         </button>
       </div>
 
@@ -185,7 +168,7 @@ export default function FeedCard({ post, onDelete, onUpdate }) {
       <div className={`relative ${isDeal ? 'flex items-start gap-8' : ''}`}>
         {isDeal && post.discount && (
           <div 
-            className="flex-shrink-0 flex flex-col items-center justify-center bg-black border-4 border-primary text-primary rounded-[32px] min-w-[100px] min-h-[100px] p-4 shadow-2xl shadow-primary/10"
+            className={`flex-shrink-0 flex flex-col items-center justify-center bg-black border-4 border-primary rounded-[32px] min-w-[100px] min-h-[100px] p-4 shadow-2xl shadow-primary/10 ${isDeal ? 'text-white' : 'text-primary'}`}
           >
             <div className="flex items-baseline leading-none">
               <span className="text-4xl font-black tracking-tighter">{post.discount.replace('%', '')}</span>
@@ -198,8 +181,8 @@ export default function FeedCard({ post, onDelete, onUpdate }) {
         <div className="flex-1">
           <div className="flex flex-col">
             <div className="flex items-center justify-between mb-2">
-              <div className="text-[10px] font-black text-white/50 uppercase tracking-[0.3em] opacity-80">
-                {post.businessName}
+              <div className={`text-[10px] font-black uppercase tracking-[0.3em] opacity-80 ${isDeal ? 'text-white' : 'text-white/50'}`}>
+                {post.businessName} {post.createdByUsername && <span className={isDeal ? 'text-white/60' : 'text-white/30'}>by @{post.createdByUsername}</span>}
               </div>
               {!isDeal && (
                 <span className="text-[10px] font-black text-white/40 uppercase tracking-widest flex items-center gap-2">
@@ -214,21 +197,21 @@ export default function FeedCard({ post, onDelete, onUpdate }) {
             </h3>
           </div>
           
-          <p className="text-white/70 text-sm mb-6 leading-relaxed font-medium">
+          <p className={`text-sm mb-6 leading-relaxed font-medium ${isDeal ? 'text-white' : 'text-white/70'}`}>
             {post.body}
           </p>
 
           {isDeal && (
             <div className="flex flex-wrap items-center gap-6 mb-6">
               {post.zip_code && (
-                <div className="flex items-center gap-2 text-[10px] font-black text-white/50 uppercase tracking-widest">
-                  <MapPin size={14} className="text-white/40" />
+                <div className={`flex items-center gap-2 text-[10px] font-black uppercase tracking-widest ${isDeal ? 'text-white' : 'text-white/50'}`}>
+                  <MapPin size={14} className={isDeal ? 'text-white' : 'text-white/40'} />
                   {post.zip_code}
                 </div>
               )}
               {post.expiresAt && (
-                <div className="flex items-center gap-2 text-[10px] font-black text-white/50 uppercase tracking-widest">
-                  <Calendar size={14} className="text-white/40" />
+                <div className={`flex items-center gap-2 text-[10px] font-black uppercase tracking-widest ${isDeal ? 'text-white' : 'text-white/50'}`}>
+                  <Calendar size={14} className={isDeal ? 'text-white' : 'text-white/40'} />
                   Expires {format(new Date(post.expiresAt), 'MMMM d, yyyy')}
                 </div>
               )}

@@ -21,9 +21,11 @@ async function startServer() {
 
   // --- Businesses API ---
   app.post('/api/businesses/submit', async (req, res) => {
-    const { name, category, description, zip, website, address, business_image, createdBy } = req.body;
+    const { name, category, description, zip, website, address, business_image, createdBy, username } = req.body;
+    const finalCreatedBy = createdBy || username || 'Anonymous';
+    
     if (!name || !category || !description || !zip) {
-      return res.status(400).json({ error: 'Missing required fields' });
+      return res.status(400).json({ error: 'Missing required fields (name, category, description, zip)' });
     }
 
     const businesses = await readData('businesses.json');
@@ -36,7 +38,7 @@ async function startServer() {
       address,
       website,
       imageUrl: business_image,
-      createdBy: createdBy || 'Anonymous',
+      createdBy: finalCreatedBy,
       createdAt: new Date().toISOString(),
       status: 'APPROVED'
     };
@@ -162,22 +164,6 @@ async function startServer() {
     posts.push(newPost);
     await writeData('posts.json', posts);
     res.status(201).json(newPost);
-  });
-
-  app.delete('/api/posts/:id', async (req, res) => {
-    const { username } = req.query;
-    const posts = await readData('posts.json');
-    const post = posts.find(p => p.id === req.params.id);
-    
-    if (!post) return res.status(404).json({ error: 'Post not found' });
-
-    if (post.createdByUsername && post.createdByUsername !== username) {
-      return res.status(403).json({ error: 'You can only delete posts that you created.' });
-    }
-
-    const filtered = posts.filter(p => p.id !== req.params.id);
-    await writeData('posts.json', filtered);
-    res.json({ message: 'Post deleted' });
   });
 
   app.put('/api/posts/:id', async (req, res) => {

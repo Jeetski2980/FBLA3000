@@ -86,7 +86,7 @@ export default function PostDeal() {
         <div className="w-20 h-20 bg-white/10 rounded-[32px] flex items-center justify-center mx-auto mb-6 border border-white/20">
           <Tag className="text-white/50" size={40} />
         </div>
-        <h1 className="text-4xl font-black text-white mb-3 tracking-tight">Post a Deal</h1>
+        <h1 tabIndex={0} className="text-4xl font-black text-white mb-3 tracking-tight">Post a Deal</h1>
         <p className="text-white/70 font-medium">Share exclusive offers with your local community.</p>
       </div>
 

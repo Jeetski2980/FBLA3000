@@ -34,8 +34,10 @@ export default function Navbar() {
               <Link
                 key={item.path}
                 to={item.path}
-                className={`flex items-center gap-2 text-[10px] font-black uppercase tracking-widest transition-all ${
-                  location.pathname === item.path ? 'text-white' : 'text-white/40 hover:text-white'
+                className={`flex items-center gap-2 font-black uppercase tracking-widest transition-all origin-left ${
+                  location.pathname === item.path 
+                    ? 'text-white text-[14px] scale-110' 
+                    : 'text-white/40 hover:text-white text-[10px] scale-90'
                 }`}
               >
                 <item.icon size={14} />
