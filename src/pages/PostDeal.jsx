@@ -66,7 +66,7 @@ export default function PostDeal() {
             <CheckCircle2 className="text-white" size={40} />
           </div>
           <h2 className="text-3xl font-black text-white mb-4 tracking-tight">Deal Published!</h2>
-          <p className="text-white/60 mb-10 font-medium">
+          <p className="text-white mb-10 font-medium">
             Your deal is now live on the Deals board for the community to see.
           </p>
           <button
@@ -84,18 +84,18 @@ export default function PostDeal() {
     <div className="max-w-2xl mx-auto px-4 py-12">
       <div className="mb-12 text-center">
         <div className="w-20 h-20 bg-white/10 rounded-[32px] flex items-center justify-center mx-auto mb-6 border border-white/20">
-          <Tag className="text-white/50" size={40} />
+          <Tag className="text-white" size={40} />
         </div>
         <h1 tabIndex={0} className="text-4xl font-black text-white mb-3 tracking-tight">Post a Deal</h1>
-        <p className="text-white/70 font-medium">Share exclusive offers with your local community.</p>
+        <p className="text-white font-medium">Share exclusive offers with your local community.</p>
       </div>
 
       <div className="bg-white/10 rounded-[40px] p-10 border border-white/20 shadow-2xl backdrop-blur-xl">
         <form onSubmit={handleSubmit} className="space-y-8">
           <div>
-            <label className="block text-[10px] font-black text-white/50 uppercase tracking-[0.2em] mb-3">Business Name</label>
+            <label className="block text-[10px] font-black text-white uppercase tracking-[0.2em] mb-3">Business Name</label>
             <div className="relative">
-              <Building2 className="absolute left-4 top-1/2 -translate-y-1/2 text-white/30" size={18} />
+              <Building2 className="absolute left-4 top-1/2 -translate-y-1/2 text-white" size={18} />
               <input
                 type="text"
                 required
@@ -108,9 +108,9 @@ export default function PostDeal() {
           </div>
 
           <div>
-            <label className="block text-[10px] font-black text-white/50 uppercase tracking-[0.2em] mb-3">Deal Title</label>
+            <label className="block text-[10px] font-black text-white uppercase tracking-[0.2em] mb-3">Deal Title</label>
             <div className="relative">
-              <Type className="absolute left-4 top-1/2 -translate-y-1/2 text-white/30" size={18} />
+              <Type className="absolute left-4 top-1/2 -translate-y-1/2 text-white" size={18} />
               <input
                 type="text"
                 required
@@ -123,7 +123,7 @@ export default function PostDeal() {
           </div>
 
           <div>
-            <label className="block text-[10px] font-black text-white/50 uppercase tracking-[0.2em] mb-3">Description</label>
+            <label className="block text-[10px] font-black text-white uppercase tracking-[0.2em] mb-3">Description</label>
             <textarea
               required
               value={formData.description}
@@ -135,9 +135,9 @@ export default function PostDeal() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div>
-              <label className="block text-[10px] font-black text-white/50 uppercase tracking-[0.2em] mb-3">Discount % or Amount</label>
+              <label className="block text-[10px] font-black text-white uppercase tracking-[0.2em] mb-3">Discount % or Amount</label>
               <div className="relative">
-                <Tag className="absolute left-4 top-1/2 -translate-y-1/2 text-white/30" size={18} />
+                <Tag className="absolute left-4 top-1/2 -translate-y-1/2 text-white" size={18} />
                 <input
                   type="text"
                   required
@@ -150,9 +150,9 @@ export default function PostDeal() {
             </div>
 
             <div>
-              <label className="block text-[10px] font-black text-white/50 uppercase tracking-[0.2em] mb-3">Expiry Date</label>
+              <label className="block text-[10px] font-black text-white uppercase tracking-[0.2em] mb-3">Expiry Date</label>
               <div className="relative">
-                <Calendar className="absolute left-4 top-1/2 -translate-y-1/2 text-white/30" size={18} />
+                <Calendar className="absolute left-4 top-1/2 -translate-y-1/2 text-white" size={18} />
                 <input
                   type="date"
                   required
@@ -165,7 +165,7 @@ export default function PostDeal() {
           </div>
 
           <div>
-            <label className="block text-[10px] font-black text-white/50 uppercase tracking-[0.2em] mb-3">Username</label>
+            <label className="block text-[10px] font-black text-white uppercase tracking-[0.2em] mb-3">Username</label>
             <input
               type="text"
               required
@@ -177,7 +177,7 @@ export default function PostDeal() {
           </div>
 
           {error && (
-            <div className="p-4 bg-red-500/10 text-red-400 rounded-2xl text-xs font-bold border border-red-500/20">
+            <div className="p-4 bg-red-500/10 text-white rounded-2xl text-xs font-bold border border-red-500/20">
               {error}
             </div>
           )}

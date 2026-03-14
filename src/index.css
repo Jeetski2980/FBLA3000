@@ -12,7 +12,7 @@
 
 @layer base {
   body {
-    @apply bg-bg text-text font-sans min-h-screen;
+    @apply bg-bg text-white font-sans min-h-screen;
   }
 }
 
@@ -33,6 +33,7 @@
 
 @layer utilities {
   .text-white\/10, .text-white\/20, .text-white\/30, .text-white\/40, .text-white\/50, .text-white\/60, .text-white\/70, .text-white\/80, .text-white\/90 {
+    color: #FFFFFF !important;
     font-size: 1.25em !important;
   }
 

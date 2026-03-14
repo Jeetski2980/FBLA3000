@@ -24,22 +24,22 @@ export default function Profile() {
           
           <div className="relative">
             <div className="w-28 h-28 bg-white/5 rounded-[32px] flex items-center justify-center mx-auto mb-6 shadow-2xl border border-white/10 backdrop-blur-xl">
-              <User size={56} className="text-white/20" />
+              <User size={56} className="text-white" />
             </div>
             
             <h1 tabIndex={0} className="text-3xl font-black text-white mb-2 tracking-tight">
               {profile.username ? `@${profile.username}` : 'Anonymous User'}
             </h1>
             
-            <div className="flex items-center justify-center gap-2 text-white/50 text-sm mb-8 font-bold uppercase tracking-widest">
-              <MapPin size={16} className="text-white/40" />
+            <div className="flex items-center justify-center gap-2 text-white text-sm mb-8 font-bold uppercase tracking-widest">
+              <MapPin size={16} className="text-white" />
               {profile.zip || 'No ZIP set'}
             </div>
 
             {isEditing ? (
               <div className="space-y-6 text-left">
                 <div>
-                  <label className="block text-[10px] font-black text-white/50 uppercase tracking-[0.2em] mb-3">Username</label>
+                  <label className="block text-[10px] font-black text-white uppercase tracking-[0.2em] mb-3">Username</label>
                   <input
                     type="text"
                     value={editUsername}
@@ -48,7 +48,7 @@ export default function Profile() {
                   />
                 </div>
                 <div>
-                  <label className="block text-[10px] font-black text-white/50 uppercase tracking-[0.2em] mb-3">Bio</label>
+                  <label className="block text-[10px] font-black text-white uppercase tracking-[0.2em] mb-3">Bio</label>
                   <textarea
                     value={editBio}
                     onChange={(e) => setEditBio(e.target.value)}
@@ -58,7 +58,7 @@ export default function Profile() {
                   />
                 </div>
                 <div>
-                  <label className="block text-[10px] font-black text-white/50 uppercase tracking-[0.2em] mb-3">ZIP Code</label>
+                  <label className="block text-[10px] font-black text-white uppercase tracking-[0.2em] mb-3">ZIP Code</label>
                   <input
                     type="text"
                     value={editZip}
@@ -74,12 +74,12 @@ export default function Profile() {
               </div>
             ) : (
               <>
-                <p className="text-white/60 text-lg mb-10 leading-relaxed italic">
+                <p className="text-white text-lg mb-10 leading-relaxed italic">
                   {profile.bio || "No bio yet."}
                 </p>
                 <button
                   onClick={() => setIsEditing(true)}
-                  className="flex items-center gap-2 mx-auto text-xs font-black text-white/40 hover:text-white transition-all uppercase tracking-widest active:scale-95"
+                  className="flex items-center gap-2 mx-auto text-xs font-black text-white hover:text-white transition-all uppercase tracking-widest active:scale-95"
                 >
                   <Edit3 size={16} />
                   Edit Profile

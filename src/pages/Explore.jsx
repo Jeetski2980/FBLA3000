@@ -36,18 +36,18 @@ export default function Explore() {
     <div className="max-w-7xl mx-auto px-4 py-8">
       <div className="mb-12">
         <h1 tabIndex={0} className="text-4xl font-black text-white mb-3 tracking-tight">Explore Local</h1>
-        <p className="text-white/70 font-medium">Discover the best businesses in {zip}</p>
+        <p className="text-white font-medium">Discover the best businesses in {zip}</p>
       </div>
 
       <div className="flex flex-col lg:flex-row gap-6 mb-12">
         <div className="relative flex-1">
-          <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-white/40" size={20} />
+          <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-white" size={20} />
           <input
             type="text"
             placeholder="Search businesses..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full bg-white/10 border border-white/20 rounded-[24px] pl-14 pr-6 py-4 text-white focus:outline-none focus:ring-2 focus:ring-primary/20 shadow-2xl placeholder:text-white/30"
+            className="w-full bg-white/10 border border-white/20 rounded-[24px] pl-14 pr-6 py-4 text-white focus:outline-none focus:ring-2 focus:ring-primary/20 shadow-2xl placeholder:text-white"
           />
         </div>
         
@@ -78,8 +78,8 @@ export default function Explore() {
 
       {loading ? (
         <div className="flex flex-col items-center justify-center py-24">
-          <Loader2 className="animate-spin text-primary mb-6" size={48} />
-          <p className="text-white/60 font-black uppercase tracking-[0.2em] text-xs">Searching for local gems...</p>
+          <Loader2 className="animate-spin text-white mb-6" size={48} />
+          <p className="text-white font-black uppercase tracking-[0.2em] text-xs">Searching for local gems...</p>
         </div>
       ) : businesses.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -93,8 +93,8 @@ export default function Explore() {
         </div>
       ) : (
         <div className="text-center py-24 bg-white/10 rounded-[40px] border border-white/20 shadow-2xl">
-          <p className="text-white/70 font-black uppercase tracking-widest text-sm mb-2">No businesses found</p>
-          <p className="text-white/50 text-xs font-medium">Try adjusting your filters or search term.</p>
+          <p className="text-white font-black uppercase tracking-widest text-sm mb-2">No businesses found</p>
+          <p className="text-white text-xs font-medium">Try adjusting your filters or search term.</p>
         </div>
       )}
     </div>

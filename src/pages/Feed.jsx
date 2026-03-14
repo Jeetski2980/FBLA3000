@@ -31,15 +31,15 @@ export default function Feed() {
       <div className="flex items-center justify-between mb-10">
         <div>
           <h1 tabIndex={0} className="text-4xl font-black text-white tracking-tight">Community Feed</h1>
-          <p className="text-white/70 font-medium mt-1">What's happening in {zip}</p>
+          <p className="text-white font-medium mt-1">What's happening in {zip}</p>
         </div>
         
         <div className="flex items-center gap-3">
-          <Filter size={18} className="text-white/50" />
+          <Filter size={18} className="text-white" />
           <select
             value={type}
             onChange={(e) => setType(e.target.value)}
-            className="bg-white/10 border border-white/20 rounded-xl px-4 py-2 text-xs font-black text-white/70 focus:outline-none focus:ring-2 focus:ring-primary/20 shadow-2xl uppercase tracking-widest"
+            className="bg-white/10 border border-white/20 rounded-xl px-4 py-2 text-xs font-black text-white focus:outline-none focus:ring-2 focus:ring-primary/20 shadow-2xl uppercase tracking-widest"
           >
             <option value="" className="bg-bg">All Posts</option>
             <option value="DEAL" className="bg-bg">Deals Only</option>
@@ -50,8 +50,8 @@ export default function Feed() {
 
       {loading ? (
         <div className="flex flex-col items-center justify-center py-24">
-          <Loader2 className="animate-spin text-primary mb-6" size={48} />
-          <p className="text-white/60 font-black uppercase tracking-[0.2em] text-xs">Loading your neighborhood...</p>
+          <Loader2 className="animate-spin text-white mb-6" size={48} />
+          <p className="text-white font-black uppercase tracking-[0.2em] text-xs">Loading your neighborhood...</p>
         </div>
       ) : posts.length > 0 ? (
         <div className="space-y-8">
@@ -65,8 +65,8 @@ export default function Feed() {
         </div>
       ) : (
         <div className="text-center py-24 bg-white/10 rounded-[40px] border border-white/20 shadow-2xl">
-          <p className="text-white/70 font-black uppercase tracking-widest text-sm mb-2">No posts found</p>
-          <p className="text-white/50 text-xs font-medium">Be the first to share something in your area!</p>
+          <p className="text-white font-black uppercase tracking-widest text-sm mb-2">No posts found</p>
+          <p className="text-white text-xs font-medium">Be the first to share something in your area!</p>
         </div>
       )}
     </div>

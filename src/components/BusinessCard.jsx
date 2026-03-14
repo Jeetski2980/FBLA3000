@@ -42,7 +42,7 @@ export default function BusinessCard({ business, onDelete }) {
       {isOwner && (
         <button
           onClick={handleDelete}
-          className="absolute top-4 right-4 z-20 bg-red-500/10 hover:bg-red-500 text-red-500 hover:text-white text-[10px] font-black uppercase tracking-widest px-4 py-2 rounded-xl backdrop-blur-xl shadow-2xl opacity-0 group-hover:opacity-100 transition-all border border-red-500/20 hover:border-red-500 flex items-center gap-2 translate-x-2 group-hover:translate-x-0 active:scale-95"
+          className="absolute top-4 right-4 z-20 bg-red-500/10 hover:bg-red-500 text-white hover:text-white text-[10px] font-black uppercase tracking-widest px-4 py-2 rounded-xl backdrop-blur-xl shadow-2xl opacity-0 group-hover:opacity-100 transition-all border border-red-500/20 hover:border-red-500 flex items-center gap-2 translate-x-2 group-hover:translate-x-0 active:scale-95"
         >
           <Trash2 size={14} />
           Delete
@@ -59,13 +59,13 @@ export default function BusinessCard({ business, onDelete }) {
               referrerPolicy="no-referrer"
             />
           ) : (
-            <div className="flex flex-col items-center justify-center text-white/20">
+            <div className="flex flex-col items-center justify-center text-white">
               <Tag size={48} className="mb-3 opacity-20" />
               <span className="text-[10px] font-black uppercase tracking-[0.3em] opacity-40">No Image</span>
             </div>
           )}
           <div className="absolute top-4 left-4 bg-black/60 backdrop-blur-xl px-3 py-1.5 rounded-xl flex items-center gap-2 border border-white/10 shadow-2xl">
-            <Star size={14} className="text-primary fill-primary" />
+            <Star size={14} className="text-white fill-white" />
             <span className="text-xs font-black text-white">{business.avgRating.toFixed(1)}</span>
           </div>
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover/card:opacity-100 transition-opacity duration-500" />
@@ -84,28 +84,28 @@ export default function BusinessCard({ business, onDelete }) {
           </span>
         </div>
 
-        <div className="flex flex-wrap items-center gap-6 text-white/50 text-[10px] font-black uppercase tracking-widest mb-6">
+        <div className="flex flex-wrap items-center gap-6 text-white text-[10px] font-black uppercase tracking-widest mb-6">
           <div className="flex items-center gap-2">
-            <MapPin size={14} className="text-white/40" />
+            <MapPin size={14} className="text-white" />
             {business.zip}
           </div>
           {business.website && (
-            <div className="flex items-center gap-2 text-white/40 hover:text-white transition-colors">
+            <div className="flex items-center gap-2 text-white hover:text-white transition-colors">
               <Globe size={14} />
               {cleanDomain(business.website)}
             </div>
           )}
         </div>
 
-        <div className="text-[10px] text-white/40 font-black uppercase tracking-widest mb-6 flex items-center gap-2">
+        <div className="text-[10px] text-white font-black uppercase tracking-widest mb-6 flex items-center gap-2">
           <div className="w-1 h-1 bg-white/20 rounded-full" />
-          Listed by <span className="text-white/60">@{business.createdBy || 'unknown'}</span>
+          Listed by <span className="text-white">@{business.createdBy || 'unknown'}</span>
         </div>
 
-        <div className="flex items-center justify-between text-[10px] font-black text-white/40 pt-6 border-t border-white/10 uppercase tracking-[0.2em]">
+        <div className="flex items-center justify-between text-[10px] font-black text-white pt-6 border-t border-white/10 uppercase tracking-[0.2em]">
           <span>{business.reviewCount} REVIEWS</span>
           {business.activeDeal && (
-            <span className="flex items-center gap-2 text-white/50 animate-pulse">
+            <span className="flex items-center gap-2 text-white animate-pulse">
               <Tag size={12} />
               ACTIVE DEAL
             </span>

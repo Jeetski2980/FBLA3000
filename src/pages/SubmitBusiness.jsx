@@ -65,7 +65,7 @@ export default function SubmitBusiness() {
             <CheckCircle2 className="text-white" size={40} />
           </div>
           <h2 className="text-3xl font-black text-white mb-4 tracking-tight">Business Submitted!</h2>
-          <p className="text-white/60 mb-10 font-medium">
+          <p className="text-white mb-10 font-medium">
             Thank you for submitting your business. It is now live on Local Pulse.
           </p>
           <button
@@ -83,16 +83,16 @@ export default function SubmitBusiness() {
     <div className="max-w-2xl mx-auto px-4 py-12">
       <div className="mb-12 text-center">
         <div className="w-20 h-20 bg-white/10 rounded-[32px] flex items-center justify-center mx-auto mb-6 border border-white/20">
-          <Building2 className="text-white/50" size={40} />
+          <Building2 className="text-white" size={40} />
         </div>
         <h1 tabIndex={0} className="text-4xl font-black text-white mb-3 tracking-tight">Submit Business</h1>
-        <p className="text-white/70 font-medium">List your business in our local directory.</p>
+        <p className="text-white font-medium">List your business in our local directory.</p>
       </div>
 
       <div className="bg-white/10 rounded-[40px] p-10 border border-white/20 shadow-2xl backdrop-blur-xl">
         <form onSubmit={handleSubmit} className="space-y-8">
           <div>
-            <label className="block text-[10px] font-black text-white/50 uppercase tracking-[0.2em] mb-3">Business Name</label>
+            <label className="block text-[10px] font-black text-white uppercase tracking-[0.2em] mb-3">Business Name</label>
             <input
               type="text"
               required
@@ -104,7 +104,7 @@ export default function SubmitBusiness() {
           </div>
 
           <div>
-            <label className="block text-[10px] font-black text-white/50 uppercase tracking-[0.2em] mb-3">Category</label>
+            <label className="block text-[10px] font-black text-white uppercase tracking-[0.2em] mb-3">Category</label>
             <select
               value={formData.category}
               onChange={(e) => setFormData({ ...formData, category: e.target.value })}
@@ -117,7 +117,7 @@ export default function SubmitBusiness() {
           </div>
 
           <div>
-            <label className="block text-[10px] font-black text-white/50 uppercase tracking-[0.2em] mb-3">Address</label>
+            <label className="block text-[10px] font-black text-white uppercase tracking-[0.2em] mb-3">Address</label>
             <input
               type="text"
               required
@@ -129,7 +129,7 @@ export default function SubmitBusiness() {
           </div>
 
           <div>
-            <label className="block text-[10px] font-black text-white/50 uppercase tracking-[0.2em] mb-3">ZIP Code</label>
+            <label className="block text-[10px] font-black text-white uppercase tracking-[0.2em] mb-3">ZIP Code</label>
             <input
               type="text"
               required
@@ -142,7 +142,7 @@ export default function SubmitBusiness() {
           </div>
 
           <div>
-            <label className="block text-[10px] font-black text-white/50 uppercase tracking-[0.2em] mb-3">Phone Number</label>
+            <label className="block text-[10px] font-black text-white uppercase tracking-[0.2em] mb-3">Phone Number</label>
             <input
               type="text"
               required
@@ -154,7 +154,7 @@ export default function SubmitBusiness() {
           </div>
 
           <div>
-            <label className="block text-[10px] font-black text-white/50 uppercase tracking-[0.2em] mb-3">Website (Optional)</label>
+            <label className="block text-[10px] font-black text-white uppercase tracking-[0.2em] mb-3">Website (Optional)</label>
             <input
               type="text"
               value={formData.website}
@@ -165,7 +165,7 @@ export default function SubmitBusiness() {
           </div>
 
           <div>
-            <label className="block text-[10px] font-black text-white/50 uppercase tracking-[0.2em] mb-3">Description</label>
+            <label className="block text-[10px] font-black text-white uppercase tracking-[0.2em] mb-3">Description</label>
             <textarea
               required
               value={formData.description}
@@ -184,7 +184,7 @@ export default function SubmitBusiness() {
           </div>
 
           <div>
-            <label className="block text-[10px] font-black text-white/50 uppercase tracking-[0.2em] mb-3">Username</label>
+            <label className="block text-[10px] font-black text-white uppercase tracking-[0.2em] mb-3">Username</label>
             <input
               type="text"
               required
@@ -196,7 +196,7 @@ export default function SubmitBusiness() {
           </div>
 
           {error && (
-            <div className="p-4 bg-red-500/10 text-red-400 rounded-2xl text-xs font-bold border border-red-500/20">
+            <div className="p-4 bg-red-500/10 text-white rounded-2xl text-xs font-bold border border-red-500/20">
               {error}
             </div>
           )}

@@ -136,7 +136,7 @@ export default function BusinessProfile() {
     return (
       <div className="flex flex-col items-center justify-center py-40">
         <Loader2 className="animate-spin text-primary mb-4" size={40} />
-        <p className="text-white/60 font-medium">Loading business profile...</p>
+        <p className="text-white font-medium">Loading business profile...</p>
       </div>
     );
   }
@@ -159,7 +159,7 @@ export default function BusinessProfile() {
                 referrerPolicy="no-referrer"
               />
             ) : (
-              <div className="flex flex-col items-center justify-center text-white/20">
+              <div className="flex flex-col items-center justify-center text-white">
                 <PlusCircle size={48} className="mb-2 opacity-20" />
                 <span className="text-xs font-bold uppercase tracking-widest opacity-40">No Image</span>
               </div>
@@ -174,7 +174,7 @@ export default function BusinessProfile() {
               {isOwner && (
                 <button 
                   onClick={() => setShowPostForm(!showPostForm)}
-                  className="text-xs font-bold text-white/60 flex items-center gap-2 hover:text-white transition-all active:scale-95"
+                  className="text-xs font-bold text-white flex items-center gap-2 hover:text-white transition-all active:scale-95"
                 >
                   <Megaphone size={16} />
                   Post Update
@@ -189,20 +189,20 @@ export default function BusinessProfile() {
                 <Star size={20} className="text-primary fill-primary" />
                 <span className="text-xl font-black text-white">{business.avgRating.toFixed(1)}</span>
               </div>
-              <div className="flex items-center gap-2 text-white/60">
+              <div className="flex items-center gap-2 text-white">
                 <MessageSquare size={18} />
                 <span className="text-sm font-bold uppercase tracking-widest">{business.reviewCount} Reviews</span>
               </div>
             </div>
 
-            <p className="text-white/70 text-lg mb-10 leading-relaxed max-w-2xl">
+            <p className="text-white text-lg mb-10 leading-relaxed max-w-2xl">
               {business.description}
             </p>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-              <div className="flex items-center gap-4 text-white/80">
+              <div className="flex items-center gap-4 text-white">
                 <div className="p-3 bg-white/10 rounded-2xl border border-white/20">
-                  <MapPin size={20} className="text-white/50" />
+                  <MapPin size={20} className="text-white" />
                 </div>
                 <span className="font-medium">{business.address || business.zip}</span>
               </div>
@@ -211,10 +211,10 @@ export default function BusinessProfile() {
                   href={business.website}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-4 text-white/80 hover:text-white transition-colors group/link"
+                  className="flex items-center gap-4 text-white hover:text-white transition-colors group/link"
                 >
                   <div className="p-3 bg-white/10 rounded-2xl border border-white/20 group-hover/link:border-white/40 transition-all">
-                    <Globe size={20} className="text-white/50" />
+                    <Globe size={20} className="text-white" />
                   </div>
                   <span className="font-medium underline underline-offset-4">{business.website.replace(/^https?:\/\//, '').replace(/\/$/, '')}</span>
                 </a>
@@ -228,13 +228,13 @@ export default function BusinessProfile() {
       {showPostForm && (
         <div className="bg-white/10 border border-white/20 rounded-[40px] p-10 mb-8 shadow-2xl">
           <h2 className="text-2xl font-black text-white mb-8 flex items-center gap-3">
-            <Megaphone className="text-white/50" size={28} />
+            <Megaphone className="text-white" size={28} />
             Post to Community Feed
           </h2>
           <form onSubmit={submitPost} className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <label className="block text-[10px] font-black text-white/60 uppercase tracking-[0.2em] mb-3">Post Type</label>
+                <label className="block text-[10px] font-black text-white uppercase tracking-[0.2em] mb-3">Post Type</label>
                 <select 
                   value={postData.type}
                   onChange={(e) => setPostData({...postData, type: e.target.value})}
@@ -245,7 +245,7 @@ export default function BusinessProfile() {
                 </select>
               </div>
               <div>
-                <label className="block text-[10px] font-black text-white/60 uppercase tracking-[0.2em] mb-3">Title</label>
+                <label className="block text-[10px] font-black text-white uppercase tracking-[0.2em] mb-3">Title</label>
                 <input 
                   type="text"
                   required
@@ -257,7 +257,7 @@ export default function BusinessProfile() {
               </div>
             </div>
             <div>
-              <label className="block text-[10px] font-black text-white/60 uppercase tracking-[0.2em] mb-3">Message</label>
+              <label className="block text-[10px] font-black text-white uppercase tracking-[0.2em] mb-3">Message</label>
               <textarea 
                 required
                 value={postData.body}
@@ -269,7 +269,7 @@ export default function BusinessProfile() {
             {postData.type === 'DEAL' && (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <label className="block text-[10px] font-black text-white/60 uppercase tracking-[0.2em] mb-3">Coupon Code (Optional)</label>
+                  <label className="block text-[10px] font-black text-white uppercase tracking-[0.2em] mb-3">Coupon Code (Optional)</label>
                   <input 
                     type="text"
                     value={postData.couponCode}
@@ -279,7 +279,7 @@ export default function BusinessProfile() {
                   />
                 </div>
                 <div>
-                  <label className="block text-[10px] font-black text-white/60 uppercase tracking-[0.2em] mb-3">Expires At (Optional)</label>
+                  <label className="block text-[10px] font-black text-white uppercase tracking-[0.2em] mb-3">Expires At (Optional)</label>
                   <input 
                     type="date"
                     value={postData.expiresAt}
@@ -334,17 +334,17 @@ export default function BusinessProfile() {
             </h2>
             
             <div className="bg-white rounded-[32px] p-8 border border-white/20 shadow-xl mb-8">
-              <h3 className="font-black text-primary mb-6 uppercase tracking-widest text-sm">Leave a Review</h3>
+              <h3 className="font-black text-white mb-6 uppercase tracking-widest text-sm">Leave a Review</h3>
               <form onSubmit={submitReview} className="space-y-6">
                 <div>
-                  <label className="block text-[10px] font-black text-primary/60 uppercase tracking-[0.2em] mb-3">Rating</label>
+                  <label className="block text-[10px] font-black text-white uppercase tracking-[0.2em] mb-3">Rating</label>
                   <div className="flex gap-2">
                     {[1, 2, 3, 4, 5].map(star => (
                       <button
                         key={star}
                         type="button"
                         onClick={() => setRating(star)}
-                        className={`p-1 transition-colors ${star <= rating ? 'text-primary' : 'text-primary/20'}`}
+                        className={`p-1 transition-colors ${star <= rating ? 'text-white' : 'text-white'}`}
                       >
                         <Star size={28} fill={star <= rating ? 'currentColor' : 'none'} />
                       </button>
@@ -353,21 +353,21 @@ export default function BusinessProfile() {
                 </div>
 
                 <div>
-                  <label className="block text-[10px] font-black text-primary/60 uppercase tracking-[0.2em] mb-3">Comment</label>
+                  <label className="block text-[10px] font-black text-white uppercase tracking-[0.2em] mb-3">Comment</label>
                   <textarea
                     value={comment}
                     onChange={(e) => setComment(e.target.value)}
                     required
-                    className="w-full bg-bg/5 border border-primary/10 rounded-2xl p-4 text-primary focus:outline-none focus:ring-2 focus:ring-primary/20 min-h-[120px] text-sm placeholder:text-primary/30"
+                    className="w-full bg-bg/5 border border-primary/10 rounded-2xl p-4 text-white focus:outline-none focus:ring-2 focus:ring-primary/20 min-h-[120px] text-sm placeholder:text-white"
                     placeholder="Share your experience..."
                   />
                 </div>
 
                 <div>
                   <div className="flex items-center gap-2 mb-3">
-                    <label className="block text-[10px] font-black text-primary/60 uppercase tracking-[0.2em]">Verification: {currentQuestion.q}</label>
+                    <label className="block text-[10px] font-black text-white uppercase tracking-[0.2em]">Verification: {currentQuestion.q}</label>
                     <div className="group relative">
-                      <Info size={14} className="text-primary/40 cursor-help" />
+                      <Info size={14} className="text-white cursor-help" />
                       <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 w-56 p-3 bg-primary text-white text-[10px] rounded-xl opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity z-50 shadow-2xl border border-white/10">
                         Verification is used to prevent bot reviews and ensure authentic community feedback.
                       </div>
@@ -378,14 +378,14 @@ export default function BusinessProfile() {
                     value={verification}
                     onChange={(e) => setVerification(e.target.value)}
                     required
-                    className="w-full bg-bg/5 border border-primary/10 rounded-2xl p-4 text-primary focus:outline-none focus:ring-2 focus:ring-primary/20 text-sm placeholder:text-primary/30"
+                    className="w-full bg-bg/5 border border-primary/10 rounded-2xl p-4 text-white focus:outline-none focus:ring-2 focus:ring-primary/20 text-sm placeholder:text-white"
                     placeholder="Answer here"
                   />
                 </div>
 
                 {message.text && (
                   <div className={`p-4 rounded-2xl text-xs font-bold ${
-                    message.type === 'success' ? 'bg-green-500/10 text-green-600 border border-green-500/20' : 'bg-red-500/10 text-red-600 border border-red-500/20'
+                    message.type === 'success' ? 'bg-green-500/10 text-white border border-green-500/20' : 'bg-red-500/10 text-white border border-red-500/20'
                   }`}>
                     {message.text}
                   </div>
@@ -415,7 +415,7 @@ export default function BusinessProfile() {
                   />
                 ))
               ) : (
-                <div className="bg-white/10 rounded-[32px] p-12 border border-white/20 text-center text-white/50">
+                <div className="bg-white/10 rounded-[32px] p-12 border border-white/20 text-center text-white">
                   No reviews yet. Be the first!
                 </div>
               )}
