@@ -6,10 +6,6 @@ export default function Admin() {
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    fetchReviews();
-  }, []);
-
   const fetchReviews = () => {
     setLoading(true);
     fetch('/api/admin/reviews?status=PENDING')
@@ -20,6 +16,10 @@ export default function Admin() {
       })
       .catch(() => setLoading(false));
   };
+
+  useEffect(() => {
+    fetchReviews();
+  }, []);
 
   const verifyReview = async (id) => {
     const res = await fetch(`/api/admin/reviews/${id}/verify`, { method: 'PUT' });
