@@ -17,14 +17,6 @@ export default function LocalPulseAI() {
   const [businesses, setBusinesses] = useState([]);
   const messagesEndRef = useRef(null);
 
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  };
-
-  useEffect(() => {
-    scrollToBottom();
-  }, [messages]);
-
   useEffect(() => {
     if (zip) {
       fetch(`/api/businesses?zip=${zip}`)
