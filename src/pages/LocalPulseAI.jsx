@@ -53,6 +53,9 @@ export default function LocalPulseAI() {
         Provide a friendly, helpful response in a chatbot style. 
         If you recommend businesses, mention why they fit the user's request based on their description or rating.
         Keep the tone bold and community-focused.
+        Do not use any asterisks (*) anywhere in your response.
+        You may use emojis when they fit naturally.
+
       `;
 
       const response = await genAI.models.generateContent({
@@ -130,8 +133,8 @@ export default function LocalPulseAI() {
             <Send size={20} />
           </button>
         </form>
-        <div className="max-w-4xl mx-auto mt-4 flex items-center gap-2 text-white/60 text-[10px] font-black uppercase tracking-widest">
-          <Sparkles size={12} />
+        <div className="max-w-4xl mx-auto mt-4 flex items-center gap-1 text-white/60 text-[8px] font-bold normal-case tracking-normal scale-75 origin-left inline-flex">
+          <Sparkles size={7} />
           Powered by Gemini AI • Community Recommendations
         </div>
       </div>

@@ -37,9 +37,12 @@ export default function App() {
                 <Route path="*" element={<Home />} />
               </Routes>
             </main>
-            <footer className="bg-white/5 border-t border-white/10 py-12 mt-12">
+            <footer
+              className="border-t border-white/10 py-7 mt-0"
+              style={{ backgroundColor: '#2BB691' }}
+            >
               <div className="max-w-5xl mx-auto px-4 text-center">
-                <p className="text-white/40 text-[10px] font-black uppercase tracking-[0.2em]">
+                <p className="text-white/40 text-[8px] font-medium normal-case tracking-normal scale-75 inline-block">
                   © 2026 Local Pulse • Community First
                 </p>
               </div>
