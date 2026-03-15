@@ -233,7 +233,7 @@ export default function BusinessProfile() {
         <div className="bg-white/10 border border-white/20 rounded-[40px] p-10 mb-8 shadow-2xl">
           <h2 className="text-2xl font-black text-white mb-8 flex items-center gap-3">
             <Megaphone className="text-white" size={28} />
-            Post to Community Feed
+            Post to Community
           </h2>
           <form onSubmit={submitPost} className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -310,7 +310,7 @@ export default function BusinessProfile() {
         <div className="lg:col-span-2 space-y-10">
           <section>
             <h2 className="text-2xl font-black text-white mb-8 flex items-center gap-3">
-              Updates & Deals
+              Community Updates
             </h2>
             {posts.length > 0 ? (
               <div className="space-y-8">

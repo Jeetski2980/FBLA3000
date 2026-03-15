@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useProfile } from '../context/ProfileContext';
-import { Home, Compass, Tag, User, PlusCircle, MapPin, Building2, Megaphone } from 'lucide-react';
+import { Home, Compass, Tag, User, Bot, MapPin, Building2, Megaphone } from 'lucide-react';
 
 export default function Navbar() {
   const { profile, updateProfile } = useProfile();
@@ -11,7 +11,7 @@ export default function Navbar() {
     { name: 'Home', path: '/', icon: Home },
     { name: 'Explore', path: '/explore', icon: Compass },
     { name: 'Deals', path: '/deals', icon: Tag },
-    { name: 'Community Feed', path: '/feed', icon: PlusCircle },
+    { name: 'LocalPulse AI', path: '/feed', icon: Bot },
     { name: 'Business', path: '/submit', icon: Building2 },
     { name: 'Post a Deal', path: '/post-deal', icon: Megaphone },
   ];

@@ -16,12 +16,20 @@ export default function Home() {
           Connecting you to the heart of your community. Discover local gems, 
           exclusive deals, and stay updated with what's happening around the corner.
         </p>
-        <Link 
-          to="/explore" 
-          className="inline-block mt-8 px-8 py-4 bg-purple-800 text-white font-black rounded-2xl transition-colors active:bg-green-600 uppercase tracking-widest text-sm"
-        >
-          Explore
-        </Link>
+        <div className="mt-8 flex flex-wrap justify-center gap-4">
+          <Link 
+            to="/explore" 
+            className="px-8 py-4 bg-purple-800 text-white font-black rounded-2xl transition-colors active:bg-green-600 uppercase tracking-widest text-sm"
+          >
+            Explore
+          </Link>
+          <Link 
+            to="/feed" 
+            className="px-8 py-4 bg-purple-800 text-white font-black rounded-2xl transition-colors active:bg-green-600 uppercase tracking-widest text-sm"
+          >
+            LocalPulse AI
+          </Link>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-12">

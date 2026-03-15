@@ -7,7 +7,7 @@ import GlobalUI from './components/GlobalUI';
 
 // Pages
 import Home from './pages/Home';
-import Feed from './pages/Feed';
+import LocalPulseAI from './pages/LocalPulseAI';
 import Explore from './pages/Explore';
 import Deals from './pages/Deals';
 import BusinessProfile from './pages/BusinessProfile';
@@ -26,7 +26,7 @@ export default function App() {
             <main className="flex-1">
               <Routes>
                 <Route path="/" element={<Home />} />
-                <Route path="/feed" element={<Feed />} />
+                <Route path="/feed" element={<LocalPulseAI />} />
                 <Route path="/explore" element={<Explore />} />
                 <Route path="/deals" element={<Deals />} />
                 <Route path="/business/:id" element={<BusinessProfile />} />
