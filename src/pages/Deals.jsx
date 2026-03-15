@@ -33,7 +33,7 @@ export default function Deals() {
     <div className="max-w-2xl mx-auto px-4 py-8">
       <div className="mb-12">
         <h1 tabIndex={0} className="text-4xl font-black text-white flex items-center gap-4 tracking-tight">
-          <Tag className="text-white" size={40} />
+          <Tag className="text-purple-800" size={40} />
           Local Deals
         </h1>
         <p className="text-white font-medium mt-2">Save money while supporting local in {zip}</p>

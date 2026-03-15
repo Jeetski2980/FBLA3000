@@ -83,7 +83,7 @@ export default function SubmitBusiness() {
     <div className="max-w-2xl mx-auto px-4 py-12">
       <div className="mb-12 text-center">
         <div className="w-20 h-20 bg-white/10 rounded-[32px] flex items-center justify-center mx-auto mb-6 border border-white/20">
-          <Building2 className="text-white" size={40} />
+          <Building2 className="text-purple-800" size={40} />
         </div>
         <h1 tabIndex={0} className="text-4xl font-black text-white mb-3 tracking-tight">Submit Business</h1>
         <p className="text-white font-medium">List your business in our local directory.</p>

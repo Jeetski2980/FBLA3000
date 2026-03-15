@@ -87,7 +87,7 @@ export default function PostDeal() {
     <div className="max-w-2xl mx-auto px-4 py-12">
       <div className="mb-12 text-center">
         <div className="w-20 h-20 bg-white/10 rounded-[32px] flex items-center justify-center mx-auto mb-6 border border-white/20">
-          <Tag className="text-white" size={40} />
+          <Tag className="text-purple-800" size={40} />
         </div>
         <h1 tabIndex={0} className="text-4xl font-black text-white mb-3 tracking-tight">Post a Deal</h1>
         <p className="text-white font-medium">Share exclusive offers with your local community.</p>
