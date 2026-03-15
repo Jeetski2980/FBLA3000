@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useProfile } from '../context/ProfileContext';
 import { GoogleGenAI } from "@google/genai";
-import { Send, Loader2, Bot, User, Sparkles } from 'lucide-react';
+import { Send, Loader2, Bot, User, Sparkles, Volume2, Mic, MicOff } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 
 const genAI = new GoogleGenAI({ apiKey: import.meta.env.VITE_GEMINI_API_KEY });
@@ -14,8 +14,48 @@ export default function LocalPulseAI() {
   ]);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
+  const [isListening, setIsListening] = useState(false);
   const [businesses, setBusinesses] = useState([]);
   const messagesEndRef = useRef(null);
+
+  const speak = (text) => {
+    if ('speechSynthesis' in window) {
+      window.speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.rate = 1;
+      utterance.pitch = 1;
+      window.speechSynthesis.speak(utterance);
+    }
+  };
+
+  const startListening = () => {
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SpeechRecognition) {
+      alert("Speech recognition is not supported in this browser.");
+      return;
+    }
+
+    const recognition = new SpeechRecognition();
+    recognition.continuous = false;
+    recognition.interimResults = false;
+    recognition.lang = 'en-US';
+
+    recognition.onstart = () => setIsListening(true);
+    recognition.onend = () => setIsListening(false);
+    recognition.onerror = (event) => {
+      console.error('Speech recognition error:', event.error);
+      setIsListening(false);
+    };
+
+    recognition.onresult = (event) => {
+      const transcript = event.results[0][0].transcript;
+      if (input.length + transcript.length <= 300) {
+        setInput(prev => (prev + ' ' + transcript).trim().slice(0, 300));
+      }
+    };
+
+    recognition.start();
+  };
 
   useEffect(() => {
     if (zip) {
@@ -89,12 +129,21 @@ export default function LocalPulseAI() {
                   <div className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 bg-white/20 text-white">
                     {msg.role === 'user' ? <User size={16} /> : <Bot size={16} />}
                   </div>
-                  <div className={`p-4 rounded-2xl border border-white/20 ${
+                  <div className={`p-4 rounded-2xl border border-white/20 relative group ${
                     msg.role === 'user' 
                       ? 'bg-white/10 text-white font-bold' 
                       : 'bg-white/5 text-white font-bold shadow-xl'
                   }`}>
                     <p className="whitespace-pre-wrap leading-relaxed">{msg.content}</p>
+                    {msg.role === 'assistant' && (
+                      <button 
+                        onClick={() => speak(msg.content)}
+                        className="absolute -right-10 top-2 p-2 text-white/40 hover:text-white transition-colors"
+                        title="Listen to message"
+                      >
+                        <Volume2 size={16} />
+                      </button>
+                    )}
                   </div>
                 </div>
               </motion.div>
@@ -118,20 +167,38 @@ export default function LocalPulseAI() {
 
       <div className="p-4 md:p-8 bg-purple-900/50 border-t border-white/10">
         <form onSubmit={handleSend} className="max-w-4xl mx-auto relative">
-          <input
-            type="text"
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            placeholder="Ask anything about your community..."
-            className="w-full bg-white/10 border border-white/20 rounded-2xl py-4 pl-6 pr-16 text-white font-bold placeholder:text-white/50 focus:outline-none focus:ring-2 focus:ring-white/30 transition-all"
-          />
-          <button
-            type="submit"
-            disabled={!input.trim() || loading}
-            className="absolute right-2 top-1/2 -translate-y-1/2 p-3 bg-white text-purple-800 rounded-xl hover:scale-105 active:scale-95 transition-all disabled:opacity-50 disabled:hover:scale-100"
-          >
-            <Send size={20} />
-          </button>
+          <div className="relative flex items-center">
+            <input
+              type="text"
+              value={input}
+              onChange={(e) => setInput(e.target.value.slice(0, 300))}
+              placeholder="Ask anything about your community..."
+              maxLength={300}
+              className="w-full bg-white/10 border border-white/20 rounded-2xl py-4 pl-6 pr-24 text-white font-bold placeholder:text-white/50 focus:outline-none focus:ring-2 focus:ring-white/30 transition-all"
+            />
+            <div className="absolute right-2 flex items-center gap-1">
+              <button
+                type="button"
+                onClick={startListening}
+                className={`p-3 rounded-xl transition-all ${
+                  isListening ? 'bg-red-500 text-white animate-pulse' : 'bg-white/10 text-white hover:bg-white/20'
+                }`}
+                title={isListening ? "Listening..." : "Speak message"}
+              >
+                {isListening ? <MicOff size={20} /> : <Mic size={20} />}
+              </button>
+              <button
+                type="submit"
+                disabled={!input.trim() || loading}
+                className="p-3 bg-white text-purple-800 rounded-xl hover:scale-105 active:scale-95 transition-all disabled:opacity-50 disabled:hover:scale-100"
+              >
+                <Send size={20} />
+              </button>
+            </div>
+          </div>
+          <div className="absolute -top-6 right-2 text-[10px] font-bold text-white/40">
+            {input.length}/300
+          </div>
         </form>
         <div className="max-w-4xl mx-auto mt-4 flex items-center gap-1 text-white/60 text-[8px] font-bold normal-case tracking-normal scale-75 origin-left inline-flex">
           <Sparkles size={13} />
