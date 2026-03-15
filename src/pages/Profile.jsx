@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useProfile } from '../context/ProfileContext';
-import { User, MapPin, Edit3, Save } from 'lucide-react';
+import { User, MapPin, Edit3, Save, Bookmark, Loader2 } from 'lucide-react';
+import BusinessCard from '../components/BusinessCard';
 
 export default function Profile() {
   const { profile, updateProfile } = useProfile();
@@ -9,6 +10,39 @@ export default function Profile() {
   const [editBio, setEditBio] = useState(profile.bio || '');
   const [editZip, setEditZip] = useState(profile.zip || '');
   const [editUsername, setEditUsername] = useState(profile.username || '');
+  const [savedBusinessesData, setSavedBusinessesData] = useState([]);
+  const [savedLoading, setSavedLoading] = useState(false);
+
+  useEffect(() => {
+    const fetchSavedBusinesses = async () => {
+      if (!profile.savedBusinesses || profile.savedBusinesses.length === 0) {
+        setSavedBusinessesData([]);
+        return;
+      }
+
+      setSavedLoading(true);
+
+      try {
+        const results = await Promise.all(
+          profile.savedBusinesses.map(id =>
+            fetch(`/api/businesses/${id}`).then(res => {
+              if (!res.ok) return null;
+              return res.json();
+            })
+          )
+        );
+
+        setSavedBusinessesData(results.filter(Boolean));
+      } catch (err) {
+        console.error('Failed to load saved businesses:', err);
+        setSavedBusinessesData([]);
+      } finally {
+        setSavedLoading(false);
+      }
+    };
+
+    fetchSavedBusinesses();
+  }, [profile.savedBusinesses]);
 
   const handleSave = () => {
     updateProfile({ bio: editBio, zip: editZip, username: editUsername });
@@ -16,9 +50,8 @@ export default function Profile() {
   };
 
   return (
-    <div className="max-w-5xl mx-auto px-4 py-8">
-      <div className="max-w-2xl mx-auto space-y-8">
-        {/* Profile Info */}
+    <div className="max-w-6xl mx-auto px-4 py-8">
+      <div className="max-w-2xl mx-auto space-y-8 mb-12">
         <div className="bg-white/10 rounded-[40px] p-10 border border-white/20 shadow-2xl text-center relative overflow-hidden">
           <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-white/5 to-transparent" />
           
@@ -88,6 +121,33 @@ export default function Profile() {
             )}
           </div>
         </div>
+      </div>
+
+      <div className="space-y-8">
+        <div className="flex items-center gap-3">
+          <Bookmark className="text-white" size={26} />
+          <h2 className="text-2xl font-black text-white tracking-tight">Saved Businesses</h2>
+        </div>
+
+        {savedLoading ? (
+          <div className="flex flex-col items-center justify-center py-16">
+            <Loader2 className="animate-spin text-white mb-4" size={40} />
+            <p className="text-white">Loading saved businesses...</p>
+          </div>
+        ) : savedBusinessesData.length > 0 ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            {savedBusinessesData.map(business => (
+              <BusinessCard
+                key={business.id}
+                business={business}
+              />
+            ))}
+          </div>
+        ) : (
+          <div className="bg-white/10 rounded-[32px] p-12 border border-white/20 text-center text-white">
+            No saved businesses yet.
+          </div>
+        )}
       </div>
     </div>
   );

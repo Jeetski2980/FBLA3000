@@ -10,10 +10,11 @@ export function ProfileProvider({ children }) {
       return {
         zip: parsed.zip || '',
         bio: parsed.bio || '',
-        username: parsed.username || ''
+        username: parsed.username || '',
+        savedBusinesses: parsed.savedBusinesses || []
       };
     }
-    return { zip: '', bio: '', username: '' };
+    return { zip: '', bio: '', username: '', savedBusinesses: [] };
   });
 
   useEffect(() => {
@@ -24,8 +25,32 @@ export function ProfileProvider({ children }) {
     setProfile(prev => ({ ...prev, ...updates }));
   };
 
+  const toggleSavedBusiness = (businessId) => {
+    setProfile(prev => {
+      const alreadySaved = prev.savedBusinesses.includes(businessId);
+
+      return {
+        ...prev,
+        savedBusinesses: alreadySaved
+          ? prev.savedBusinesses.filter(id => id !== businessId)
+          : [...prev.savedBusinesses, businessId]
+      };
+    });
+  };
+
+  const isBusinessSaved = (businessId) => {
+    return profile.savedBusinesses.includes(businessId);
+  };
+
   return (
-    <ProfileContext.Provider value={{ profile, updateProfile }}>
+    <ProfileContext.Provider
+      value={{
+        profile,
+        updateProfile,
+        toggleSavedBusiness,
+        isBusinessSaved
+      }}
+    >
       {children}
     </ProfileContext.Provider>
   );
