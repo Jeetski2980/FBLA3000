@@ -1,0 +1,20 @@
+{
+  "name": "LocalPulse",
+  "short_name": "LocalPulse",
+  "description": "Discover local gems, exclusive deals, and community updates in a desktop-style app window.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "display_override": ["window-controls-overlay", "standalone"],
+  "background_color": "#3DA6C1",
+  "theme_color": "#2BB691",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/localpulse-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

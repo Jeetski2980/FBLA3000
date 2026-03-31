@@ -38,5 +38,315 @@
     "zip": "48187",
     "bio": "Always on the hunt for healthy meal prep options and local gyms with early morning classes.",
     "createdAt": "2026-01-04T00:00:00.000Z"
+  },
+  {
+    "id": "u5",
+    "username": "coffee_kate",
+    "email": "coffee_kate@example.com",
+    "passwordHash": "$2a$10$zR8Jv.X7b9Y7b9Y7b9Y7b9Yu.X7b9Y7b9Y7b9Y7b9Y7b9Yu",
+    "role": "USER",
+    "zip": "48187",
+    "bio": "Cafe regular who loves finding quiet places to study and local pastry spots.",
+    "createdAt": "2026-01-05T00:00:00.000Z"
+  },
+  {
+    "id": "u6",
+    "username": "market_miles",
+    "email": "market_miles@example.com",
+    "passwordHash": "$2a$10$zR8Jv.X7b9Y7b9Y7b9Y7b9Yu.X7b9Y7b9Y7b9Y7b9Y7b9Yu",
+    "role": "USER",
+    "zip": "48187",
+    "bio": "Weekend market explorer always looking for fresh produce and neighborhood events.",
+    "createdAt": "2026-01-06T00:00:00.000Z"
+  },
+  {
+    "id": "u7",
+    "username": "study_spot_sam",
+    "email": "study_spot_sam@example.com",
+    "passwordHash": "$2a$10$zR8Jv.X7b9Y7b9Y7b9Y7b9Yu.X7b9Y7b9Y7b9Y7b9Y7b9Yu",
+    "role": "USER",
+    "zip": "90210",
+    "bio": "Always looking for libraries, coffee shops, and calm corners with strong Wi-Fi.",
+    "createdAt": "2026-01-07T00:00:00.000Z"
+  },
+  {
+    "id": "u8",
+    "username": "lunch_break_liz",
+    "email": "lunch_break_liz@example.com",
+    "passwordHash": "$2a$10$zR8Jv.X7b9Y7b9Y7b9Y7b9Yu.X7b9Y7b9Y7b9Y7b9Y7b9Yu",
+    "role": "USER",
+    "zip": "48187",
+    "bio": "On a mission to find the best quick lunches, smoothies, and student specials.",
+    "createdAt": "2026-01-08T00:00:00.000Z"
+  },
+  {
+    "id": "u9",
+    "username": "neighborhood_nina",
+    "email": "neighborhood_nina@example.com",
+    "passwordHash": "$2a$10$zR8Jv.X7b9Y7b9Y7b9Y7b9Yu.X7b9Y7b9Y7b9Y7b9Y7b9Yu",
+    "role": "USER",
+    "zip": "90210",
+    "bio": "I love spotting new businesses before everyone else and sharing them with friends.",
+    "createdAt": "2026-01-09T00:00:00.000Z"
+  },
+  {
+    "id": "u10",
+    "username": "deal_dash_dan",
+    "email": "deal_dash_dan@example.com",
+    "passwordHash": "$2a$10$zR8Jv.X7b9Y7b9Y7b9Y7b9Yu.X7b9Y7b9Y7b9Y7b9Y7b9Yu",
+    "role": "USER",
+    "zip": "48187",
+    "bio": "Coupon hunter and flash-sale fan who checks LocalPulse before making any weekend plans.",
+    "createdAt": "2026-01-10T00:00:00.000Z"
+  },
+  {
+    "id": "u11",
+    "username": "brunch_bella",
+    "email": "brunch_bella@example.com",
+    "passwordHash": "$2a$10$zR8Jv.X7b9Y7b9Y7b9Y7b9Yu.X7b9Y7b9Y7b9Y7b9Y7b9Yu",
+    "role": "USER",
+    "zip": "90210",
+    "bio": "Weekend brunch planner with a soft spot for cozy cafes and fresh baked goods.",
+    "createdAt": "2026-01-11T00:00:00.000Z"
+  },
+  {
+    "id": "u12",
+    "username": "campus_chris",
+    "email": "campus_chris@example.com",
+    "passwordHash": "$2a$10$zR8Jv.X7b9Y7b9Y7b9Y7b9Yu.X7b9Y7b9Y7b9Y7b9Y7b9Yu",
+    "role": "USER",
+    "zip": "48187",
+    "bio": "Student looking for affordable food, hangout spots, and local things to do after class.",
+    "createdAt": "2026-01-12T00:00:00.000Z"
+  },
+  {
+    "id": "u13",
+    "username": "sushi_seekr",
+    "email": "sushi_seekr@example.com",
+    "passwordHash": "$2a$10$zR8Jv.X7b9Y7b9Y7b9Y7b9Yu.X7b9Y7b9Y7b9Y7b9Y7b9Yu",
+    "role": "USER",
+    "zip": "48187",
+    "bio": "I rate every sushi place I visit and never skip a spicy tuna roll.",
+    "createdAt": "2026-01-13T00:00:00.000Z"
+  },
+  {
+    "id": "u14",
+    "username": "gymtime_gabe",
+    "email": "gymtime_gabe@example.com",
+    "passwordHash": "$2a$10$zR8Jv.X7b9Y7b9Y7b9Y7b9Yu.X7b9Y7b9Y7b9Y7b9Y7b9Yu",
+    "role": "USER",
+    "zip": "48187",
+    "bio": "Early-morning gym regular looking for protein bowls and healthy local options.",
+    "createdAt": "2026-01-14T00:00:00.000Z"
+  },
+  {
+    "id": "u15",
+    "username": "quiet_corner_q",
+    "email": "quiet_corner_q@example.com",
+    "passwordHash": "$2a$10$zR8Jv.X7b9Y7b9Y7b9Y7b9Yu.X7b9Y7b9Y7b9Y7b9Y7b9Yu",
+    "role": "USER",
+    "zip": "90210",
+    "bio": "If a place has good lighting, low noise, and strong espresso, I want to know about it.",
+    "createdAt": "2026-01-15T00:00:00.000Z"
+  },
+  {
+    "id": "u16",
+    "username": "freshfinds_faith",
+    "email": "freshfinds_faith@example.com",
+    "passwordHash": "$2a$10$zR8Jv.X7b9Y7b9Y7b9Y7b9Yu.X7b9Y7b9Y7b9Y7b9Y7b9Yu",
+    "role": "USER",
+    "zip": "90210",
+    "bio": "I love new openings, pop-ups, and hidden gems that deserve more attention.",
+    "createdAt": "2026-01-16T00:00:00.000Z"
+  },
+  {
+    "id": "u17",
+    "username": "tea_trails_ty",
+    "email": "tea_trails_ty@example.com",
+    "passwordHash": "$2a$10$zR8Jv.X7b9Y7b9Y7b9Y7b9Yu.X7b9Y7b9Y7b9Y7b9Y7b9Yu",
+    "role": "USER",
+    "zip": "48187",
+    "bio": "Bubble tea, snack runs, and local dessert spots are my full personality.",
+    "createdAt": "2026-01-17T00:00:00.000Z"
+  },
+  {
+    "id": "u18",
+    "username": "urban_uma",
+    "email": "urban_uma@example.com",
+    "passwordHash": "$2a$10$zR8Jv.X7b9Y7b9Y7b9Y7b9Yu.X7b9Y7b9Y7b9Y7b9Y7b9Yu",
+    "role": "USER",
+    "zip": "90210",
+    "bio": "I use LocalPulse to plan neighborhood adventures with friends every weekend.",
+    "createdAt": "2026-01-18T00:00:00.000Z"
+  },
+  {
+    "id": "u19",
+    "username": "biteswithben",
+    "email": "biteswithben@example.com",
+    "passwordHash": "$2a$10$zR8Jv.X7b9Y7b9Y7b9Y7b9Yu.X7b9Y7b9Y7b9Y7b9Y7b9Yu",
+    "role": "USER",
+    "zip": "48187",
+    "bio": "Food-first explorer who keeps a running list of local favorites and must-try lunches.",
+    "createdAt": "2026-01-19T00:00:00.000Z"
+  },
+  {
+    "id": "u20",
+    "username": "mainstreet_maya",
+    "email": "mainstreet_maya@example.com",
+    "passwordHash": "$2a$10$zR8Jv.X7b9Y7b9Y7b9Y7b9Yu.X7b9Y7b9Y7b9Y7b9Y7b9Yu",
+    "role": "USER",
+    "zip": "48187",
+    "bio": "I care about local businesses and love seeing neighborhoods thrive.",
+    "createdAt": "2026-01-20T00:00:00.000Z"
+  },
+  {
+    "id": "u21",
+    "username": "rooftop_rae",
+    "email": "rooftop_rae@example.com",
+    "passwordHash": "$2a$10$zR8Jv.X7b9Y7b9Y7b9Y7b9Yu.X7b9Y7b9Y7b9Y7b9Y7b9Yu",
+    "role": "USER",
+    "zip": "90210",
+    "bio": "Always looking for stylish local spots to meet up, work, or unwind.",
+    "createdAt": "2026-01-21T00:00:00.000Z"
+  },
+  {
+    "id": "u22",
+    "username": "pickleball_pat",
+    "email": "pickleball_pat@example.com",
+    "passwordHash": "$2a$10$zR8Jv.X7b9Y7b9Y7b9Y7b9Yu.X7b9Y7b9Y7b9Y7b9Y7b9Yu",
+    "role": "USER",
+    "zip": "48187",
+    "bio": "I’m always searching for active things to do and good spots to refuel after.",
+    "createdAt": "2026-01-22T00:00:00.000Z"
+  },
+  {
+    "id": "u23",
+    "username": "local_lena",
+    "email": "local_lena@example.com",
+    "passwordHash": "$2a$10$zR8Jv.X7b9Y7b9Y7b9Y7b9Yu.X7b9Y7b9Y7b9Y7b9Y7b9Yu",
+    "role": "USER",
+    "zip": "90210",
+    "bio": "I champion small businesses and love recommending neighborhood favorites.",
+    "createdAt": "2026-01-23T00:00:00.000Z"
+  },
+  {
+    "id": "u24",
+    "username": "pastry_piper",
+    "email": "pastry_piper@example.com",
+    "passwordHash": "$2a$10$zR8Jv.X7b9Y7b9Y7b9Y7b9Yu.X7b9Y7b9Y7b9Y7b9Y7b9Yu",
+    "role": "USER",
+    "zip": "48187",
+    "bio": "My weekends are built around pastries, coffee, and discovering somewhere new.",
+    "createdAt": "2026-01-24T00:00:00.000Z"
+  },
+  {
+    "id": "u25",
+    "username": "freshair_finn",
+    "email": "freshair_finn@example.com",
+    "passwordHash": "$2a$10$zR8Jv.X7b9Y7b9Y7b9Y7b9Yu.X7b9Y7b9Y7b9Y7b9Y7b9Yu",
+    "role": "USER",
+    "zip": "90210",
+    "bio": "I like local walks, weekend stops, and trying one new place each week.",
+    "createdAt": "2026-01-25T00:00:00.000Z"
+  },
+  {
+    "id": "u26",
+    "username": "studygroup_sky",
+    "email": "studygroup_sky@example.com",
+    "passwordHash": "$2a$10$zR8Jv.X7b9Y7b9Y7b9Y7b9Yu.X7b9Y7b9Y7b9Y7b9Y7b9Yu",
+    "role": "USER",
+    "zip": "48187",
+    "bio": "I organize study sessions and am always hunting for group-friendly spots.",
+    "createdAt": "2026-01-26T00:00:00.000Z"
+  },
+  {
+    "id": "u27",
+    "username": "civic_casey",
+    "email": "civic_casey@example.com",
+    "passwordHash": "$2a$10$zR8Jv.X7b9Y7b9Y7b9Y7b9Yu.X7b9Y7b9Y7b9Y7b9Y7b9Yu",
+    "role": "USER",
+    "zip": "48187",
+    "bio": "I care about community growth and want to keep support local whenever possible.",
+    "createdAt": "2026-01-27T00:00:00.000Z"
+  },
+  {
+    "id": "u28",
+    "username": "afterclass_avery",
+    "email": "afterclass_avery@example.com",
+    "passwordHash": "$2a$10$zR8Jv.X7b9Y7b9Y7b9Y7b9Yu.X7b9Y7b9Y7b9Y7b9Y7b9Yu",
+    "role": "USER",
+    "zip": "90210",
+    "bio": "I use the app to plan where to eat, work, and hang out after classes.",
+    "createdAt": "2026-01-28T00:00:00.000Z"
+  },
+  {
+    "id": "u29",
+    "username": "boba_brook",
+    "email": "boba_brook@example.com",
+    "passwordHash": "$2a$10$zR8Jv.X7b9Y7b9Y7b9Y7b9Yu.X7b9Y7b9Y7b9Y7b9Y7b9Yu",
+    "role": "USER",
+    "zip": "48187",
+    "bio": "If there’s tapioca, fruit tea, or a sweet local deal, I’m there.",
+    "createdAt": "2026-01-29T00:00:00.000Z"
+  },
+  {
+    "id": "u30",
+    "username": "hiddengem_hugo",
+    "email": "hiddengem_hugo@example.com",
+    "passwordHash": "$2a$10$zR8Jv.X7b9Y7b9Y7b9Y7b9Yu.X7b9Y7b9Y7b9Y7b9Y7b9Yu",
+    "role": "USER",
+    "zip": "90210",
+    "bio": "I like finding underrated local spots before they become impossible to get into.",
+    "createdAt": "2026-01-30T00:00:00.000Z"
+  },
+  {
+    "id": "u31",
+    "username": "parkbench_pam",
+    "email": "parkbench_pam@example.com",
+    "passwordHash": "$2a$10$zR8Jv.X7b9Y7b9Y7b9Y7b9Yu.X7b9Y7b9Y7b9Y7b9Y7b9Yu",
+    "role": "USER",
+    "zip": "48187",
+    "bio": "I love easy neighborhood plans that mix food, walks, and small local stops.",
+    "createdAt": "2026-01-31T00:00:00.000Z"
+  },
+  {
+    "id": "u32",
+    "username": "snackstop_seth",
+    "email": "snackstop_seth@example.com",
+    "passwordHash": "$2a$10$zR8Jv.X7b9Y7b9Y7b9Y7b9Yu.X7b9Y7b9Y7b9Y7b9Y7b9Yu",
+    "role": "USER",
+    "zip": "48187",
+    "bio": "I rate neighborhoods by snack options, coffee availability, and convenience.",
+    "createdAt": "2026-02-01T00:00:00.000Z"
+  },
+  {
+    "id": "u33",
+    "username": "fitness_faye",
+    "email": "fitness_faye@example.com",
+    "passwordHash": "$2a$10$zR8Jv.X7b9Y7b9Y7b9Y7b9Yu.X7b9Y7b9Y7b9Y7b9Y7b9Yu",
+    "role": "USER",
+    "zip": "90210",
+    "bio": "Pilates, smoothie bars, and healthy lunch spots are my usual local search.",
+    "createdAt": "2026-02-02T00:00:00.000Z"
+  },
+  {
+    "id": "u34",
+    "username": "cornerstore_cam",
+    "email": "cornerstore_cam@example.com",
+    "passwordHash": "$2a$10$zR8Jv.X7b9Y7b9Y7b9Y7b9Yu.X7b9Y7b9Y7b9Y7b9Y7b9Yu",
+    "role": "USER",
+    "zip": "48187",
+    "bio": "I’m all about practical local favorites that make everyday life easier.",
+    "createdAt": "2026-02-03T00:00:00.000Z"
+  },
+  {
+    "id": "u35",
+    "username": "latebite_lee",
+    "email": "latebite_lee@example.com",
+    "passwordHash": "$2a$10$zR8Jv.X7b9Y7b9Y7b9Y7b9Yu.X7b9Y7b9Y7b9Y7b9Y7b9Yu",
+    "role": "USER",
+    "zip": "90210",
+    "bio": "I’m always searching for reliable evening food spots and last-minute local plans.",
+    "createdAt": "2026-02-04T00:00:00.000Z"
   }
 ]

@@ -36,8 +36,8 @@ export default function Navbar() {
                 to={item.path}
                 className={`flex items-center gap-2 font-black uppercase tracking-widest transition-all origin-left text-white ${
                   location.pathname === item.path 
-                    ? 'text-[14px] scale-110' 
-                    : 'hover:text-white text-[10px] scale-90'
+                    ? 'text-[18px] scale-110' 
+                    : 'hover:text-white text-[13px] scale-90'
                 }`}
               >
                 <item.icon size={14} className="text-purple-800" />

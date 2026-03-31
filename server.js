@@ -1,5 +1,6 @@
 import express from 'express';
 import { createServer as createViteServer } from 'vite';
+import fs from 'fs';
 import path from 'path';
 import cookieParser from 'cookie-parser';
 import bcrypt from 'bcryptjs';
@@ -12,9 +13,147 @@ import { VERIFICATION_QUESTIONS } from './src/constants.js';
 async function startServer() {
   const app = express();
   const PORT = Number(process.env.PORT) || 3000;
+  const dataDirectory = path.join(process.cwd(), 'server', 'data');
+  const homeStatsClients = new Set();
 
   app.use(express.json());
   app.use(cookieParser());
+
+  const getUserCount = async () => {
+    const users = await readData('users.json');
+    return Array.isArray(users)
+      ? users.filter((user) => typeof user?.username === 'string' && user.username.trim()).length
+      : 0;
+  };
+
+  const getBusinessCount = async () => {
+    const businesses = await readData('businesses.json');
+    return Array.isArray(businesses) ? businesses.length : 0;
+  };
+
+  const getHomeStats = async () => {
+    const [users, businesses] = await Promise.all([
+      getUserCount(),
+      getBusinessCount()
+    ]);
+
+    return { users, businesses };
+  };
+
+  const writeSseEvent = (res, event, payload) => {
+    res.write(`event: ${event}\n`);
+    res.write(`data: ${JSON.stringify(payload)}\n\n`);
+  };
+
+  const broadcastHomeStats = async () => {
+    try {
+      const stats = await getHomeStats();
+      for (const client of homeStatsClients) {
+        writeSseEvent(client, 'home-stats', stats);
+      }
+    } catch (error) {
+      console.error('Failed to broadcast home stats:', error);
+      for (const client of homeStatsClients) {
+        writeSseEvent(client, 'home-stats-error', { message: 'Failed to load home stats' });
+      }
+    }
+  };
+
+  let homeStatsBroadcastTimeout;
+  fs.watch(dataDirectory, (_eventType, filename) => {
+    if (
+      filename &&
+      filename !== 'users.json' &&
+      filename !== 'users.json.tmp' &&
+      filename !== 'businesses.json' &&
+      filename !== 'businesses.json.tmp'
+    ) {
+      return;
+    }
+
+    clearTimeout(homeStatsBroadcastTimeout);
+    homeStatsBroadcastTimeout = setTimeout(() => {
+      void broadcastHomeStats();
+    }, 100);
+  });
+
+  app.get('/api/home/stats', async (_req, res) => {
+    try {
+      const stats = await getHomeStats();
+      res.json(stats);
+    } catch (error) {
+      console.error('Failed to load home stats:', error);
+      res.status(500).json({ error: 'Failed to load home stats' });
+    }
+  });
+
+  app.get('/api/home/stats/stream', async (req, res) => {
+    res.setHeader('Content-Type', 'text/event-stream');
+    res.setHeader('Cache-Control', 'no-cache, no-transform');
+    res.setHeader('Connection', 'keep-alive');
+    res.setHeader('X-Accel-Buffering', 'no');
+    res.flushHeaders?.();
+    res.write('retry: 5000\n\n');
+
+    homeStatsClients.add(res);
+
+    try {
+      const stats = await getHomeStats();
+      writeSseEvent(res, 'home-stats', stats);
+    } catch (error) {
+      console.error('Failed to initialize home stats stream:', error);
+      writeSseEvent(res, 'home-stats-error', { message: 'Failed to load home stats' });
+    }
+
+    const heartbeat = setInterval(() => {
+      res.write(': keepalive\n\n');
+    }, 30000);
+
+    req.on('close', () => {
+      clearInterval(heartbeat);
+      homeStatsClients.delete(res);
+      res.end();
+    });
+  });
+
+  app.get('/api/users/count', async (_req, res) => {
+    try {
+      const count = await getUserCount();
+      res.json({ count });
+    } catch (error) {
+      console.error('Failed to load user count:', error);
+      res.status(500).json({ error: 'Failed to load user count' });
+    }
+  });
+
+  app.get('/api/users/count/stream', async (req, res) => {
+    res.setHeader('Content-Type', 'text/event-stream');
+    res.setHeader('Cache-Control', 'no-cache, no-transform');
+    res.setHeader('Connection', 'keep-alive');
+    res.setHeader('X-Accel-Buffering', 'no');
+    res.flushHeaders?.();
+    res.write('retry: 5000\n\n');
+
+    homeStatsClients.add(res);
+
+    try {
+      const count = await getUserCount();
+      writeSseEvent(res, 'user-count', { count });
+    } catch (error) {
+      console.error('Failed to initialize user count stream:', error);
+      writeSseEvent(res, 'user-count-error', { message: 'Failed to load user count' });
+    }
+
+    const heartbeat = setInterval(() => {
+      res.write(': keepalive\n\n');
+    }, 30000);
+
+    req.on('close', () => {
+      clearInterval(heartbeat);
+      homeStatsClients.delete(res);
+      res.end();
+    });
+  });
 
   // --- User Profile API (Local Storage based on client, but server can store if we want, 
   // but user said "no login", so we'll just handle ZIP/Bio in the AI request) ---

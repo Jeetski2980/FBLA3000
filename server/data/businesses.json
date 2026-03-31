@@ -118,5 +118,35 @@
     "address": "909 Health Blvd, Canton, MI",
     "website": "https://fitfresh.com",
     "createdAt": "2026-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "b13",
+    "name": "Maple & Mint Books",
+    "category": "Services",
+    "description": "Independent neighborhood bookstore with curated reads, cozy corners, and local author nights.",
+    "zip": "48187",
+    "address": "111 River St, Canton, MI",
+    "website": "https://mapleandmintbooks.com",
+    "createdAt": "2026-02-01T00:00:00.000Z"
+  },
+  {
+    "id": "b14",
+    "name": "Sunset Slice",
+    "category": "Food",
+    "description": "Fast, cheesy pizza by the slice with late-night hours and weekly student specials.",
+    "zip": "90210",
+    "address": "222 Sunset Ave, Beverly Hills, CA",
+    "website": "https://sunsetslice.com",
+    "createdAt": "2026-02-02T00:00:00.000Z"
+  },
+  {
+    "id": "b15",
+    "name": "Bluebird Florals",
+    "category": "Services",
+    "description": "Local floral studio creating fresh bouquets, event arrangements, and same-day neighborhood deliveries.",
+    "zip": "48187",
+    "address": "333 Garden Way, Canton, MI",
+    "website": "https://bluebirdflorals.com",
+    "createdAt": "2026-02-03T00:00:00.000Z"
   }
 ]
