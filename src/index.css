@@ -29,6 +29,116 @@
   .input {
     @apply w-full px-4 py-2 rounded-xl border border-white/20 bg-white/5 text-white focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all placeholder:text-white/30;
   }
+
+  .home-hero .card {
+    width: min(100%, 760px);
+    min-height: 156px;
+    background: #4f5bd5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0px 0px 12px 4px #00000088;
+    cursor: pointer;
+  }
+
+  .home-hero .card .content {
+    border-radius: 5px;
+    background: #3aa886;
+    width: calc(100% - 4px);
+    min-height: 152px;
+    z-index: 1;
+    padding: 24px 32px;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    position: relative;
+  }
+
+  .home-hero .card .content p {
+    font-size: 1.25rem;
+    line-height: 1.6;
+    font-weight: 500;
+    font-family: "Margarine", cursive;
+    max-width: 32rem;
+  }
+
+  .home-hero .content::before {
+    opacity: 0;
+    transition: opacity 200ms;
+    content: "";
+    display: block;
+    background: #7cf0d0;
+    width: 16px;
+    height: 120px;
+    position: absolute;
+    filter: blur(50px);
+  }
+
+  .home-hero .card:hover .content::before {
+    opacity: 1;
+  }
+
+  .home-hero .card::before {
+    opacity: 0;
+    content: "";
+    position: absolute;
+    display: block;
+    width: 420px;
+    height: 600px;
+    background: linear-gradient(
+      90deg,
+      #3aa886 0%,
+      #7cf0d0 25%,
+      #4f5bd5 50%,
+      #7cf0d0 75%,
+      #3aa886 100%
+    );
+    filter: blur(2px);
+    transition: opacity 200ms;
+    animation: rotation_9018 3000ms infinite linear;
+    animation-play-state: paused;
+  }
+
+  .home-hero .card:hover::before {
+    opacity: 1;
+    animation-play-state: running;
+  }
+
+  .home-hero .card::after {
+    position: absolute;
+    content: "";
+    display: block;
+    width: calc(100% + 64px);
+    height: calc(100% + 96px);
+    background: #4f5bd544;
+    backdrop-filter: blur(60px);
+  }
+
+  .home-hero .card:hover {
+    box-shadow:
+      0px 0px 25px 8px #4f5bd5aa,
+      0px 0px 50px 16px #3aa88688;
+  }
+
+  @media (max-width: 640px) {
+    .home-hero .card {
+      min-height: 188px;
+    }
+
+    .home-hero .card .content {
+      min-height: 184px;
+      padding: 20px 22px;
+    }
+
+    .home-hero .card .content p {
+      font-size: 1.125rem;
+      line-height: 1.5;
+    }
+  }
 }
 
 @layer utilities { /* Custom text and heading tweaks */
@@ -44,5 +154,10 @@
   
   h1:active, h1:focus, h1:hover {
     transform: scale(1.1);
+  }
+
+  @keyframes rotation_9018 {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
   }
 }

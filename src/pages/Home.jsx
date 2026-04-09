@@ -6,7 +6,6 @@ export default function Home() {
   const [stats, setStats] = useState({ users: null, businesses: null }); // Live totals from the server
   const [displayStats, setDisplayStats] = useState({ users: 0, businesses: 0 });
   const [isLoadingStats, setIsLoadingStats] = useState(true);
-  const [isIntroHovered, setIsIntroHovered] = useState(false);
   const [isStatsHovered, setIsStatsHovered] = useState(false);
   const usersFrameRef = useRef(null);
   const businessesFrameRef = useRef(null);
@@ -169,26 +168,14 @@ export default function Home() {
         <h1 tabIndex={0} className="text-[4.875rem] font-black text-white mb-6 tracking-tighter leading-none">
           LocalPulse
         </h1>
-        <div
-          className="mx-auto w-full max-w-2xl overflow-hidden border-[3px] border-black text-left transition-all duration-300 ease-out"
-          style={{
-            backgroundColor: '#16A34A',
-            boxShadow: isIntroHovered ? '6px 6px 0 #6B21A8' : '12px 12px 0 #6B21A8',
-            transform: isIntroHovered ? 'translate(0, 0)' : 'translate(-6px, -6px)'
-          }}
-          onMouseEnter={() => setIsIntroHovered(true)}
-          onMouseLeave={() => setIsIntroHovered(false)}
-        >
-          <div className="flex h-8 w-full items-center border-b-[3px] border-black bg-white px-3 text-sm font-black uppercase tracking-widest text-black">
-            Local Community
+        <div className="home-hero mt-2 flex justify-center">
+          <div className="card">
+            <div className="content">
+              <p>
+                Connecting you to the heart of your community. Discover local gems, exclusive deals, and stay updated with what's happening around the corner.
+              </p>
+            </div>
           </div>
-          <p
-            className="px-4 py-4 text-xl font-medium leading-relaxed text-white"
-            style={{ fontFamily: '"Margarine", cursive' }}
-          >
-            Connecting you to the heart of your community. Discover local gems,
-            exclusive deals, and stay updated with what's happening around the corner.
-          </p>
         </div>
         <div className="mt-8 flex justify-center">
           <div
