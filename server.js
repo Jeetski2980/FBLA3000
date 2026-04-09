@@ -15,9 +15,33 @@ async function startServer() { // Boot the API and Vite server
   const PORT = Number(process.env.PORT) || 3000;
   const dataDirectory = path.join(process.cwd(), 'server', 'data');
   const homeStatsClients = new Set(); // Open SSE connections
+  const staticSitemapRoutes = [
+    { path: '/', priority: '1.0', changefreq: 'daily' },
+    { path: '/feed', priority: '0.9', changefreq: 'daily' },
+    { path: '/explore', priority: '0.9', changefreq: 'daily' },
+    { path: '/deals', priority: '0.8', changefreq: 'daily' },
+  ];
 
   app.use(express.json());
   app.use(cookieParser());
+
+  const getBaseUrl = (req) => {
+    const protocolHeader = req.headers['x-forwarded-proto'];
+    const forwardedProtocol = Array.isArray(protocolHeader)
+      ? protocolHeader[0]
+      : protocolHeader?.split(',')[0]?.trim();
+    const protocol = forwardedProtocol || req.protocol || 'http';
+    return `${protocol}://${req.get('host')}`;
+  };
+
+  const buildSitemapUrlEntry = ({ loc, lastmod, changefreq, priority }) => [
+    '  <url>',
+    `    <loc>${loc}</loc>`,
+    lastmod ? `    <lastmod>${lastmod}</lastmod>` : null,
+    changefreq ? `    <changefreq>${changefreq}</changefreq>` : null,
+    priority ? `    <priority>${priority}</priority>` : null,
+    '  </url>',
+  ].filter(Boolean).join('\n');
 
   const getUserCount = async () => {
     const users = await readData('users.json');
@@ -538,6 +562,51 @@ async function startServer() { // Boot the API and Vite server
       recommendations: fallbackRecs,
       fallbackUsed: true
     });
+  });
+
+  app.get('/robots.txt', async (req, res) => {
+    const baseUrl = getBaseUrl(req);
+    const robots = [
+      'User-agent: *',
+      'Allow: /',
+      'Disallow: /admin',
+      `Sitemap: ${baseUrl}/sitemap.xml`,
+    ].join('\n');
+
+    res.type('text/plain').send(robots);
+  });
+
+  app.get('/sitemap.xml', async (req, res) => {
+    const baseUrl = getBaseUrl(req);
+    const businesses = await readData('businesses.json');
+
+    const staticEntries = staticSitemapRoutes.map((route) => buildSitemapUrlEntry({
+      loc: `${baseUrl}${route.path}`,
+      lastmod: new Date().toISOString().split('T')[0],
+      changefreq: route.changefreq,
+      priority: route.priority,
+    }));
+
+    const businessEntries = Array.isArray(businesses)
+      ? businesses.map((business) => buildSitemapUrlEntry({
+        loc: `${baseUrl}/business/${business.id}`,
+        lastmod: business.createdAt
+          ? new Date(business.createdAt).toISOString().split('T')[0]
+          : undefined,
+        changefreq: 'weekly',
+        priority: '0.7',
+      }))
+      : [];
+
+    const sitemap = [
+      '<?xml version="1.0" encoding="UTF-8"?>',
+      '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
+      ...staticEntries,
+      ...businessEntries,
+      '</urlset>',
+    ].join('\n');
+
+    res.type('application/xml').send(sitemap);
   });
 
   // --- Vite Middleware ---
