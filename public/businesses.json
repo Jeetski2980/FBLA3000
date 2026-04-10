@@ -1,0 +1,14 @@
+[
+  {
+    "name": "Business One",
+    "address": "123 Main St, Novi, MI"
+  },
+  {
+    "name": "Business Two",
+    "address": "456 Oak Ave, Northville, MI"
+  },
+  {
+    "name": "Business Three",
+    "address": "789 Grand River Ave, Brighton, MI"
+  }
+]
