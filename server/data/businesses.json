@@ -8,6 +8,7 @@
     "address": "42412 Ford Rd, Canton Township, MI 48187, USA",
     "website": "https://www.osushicanton.com/",
     "googlePlaceId": "ChIJFZhfgVZSO4gRmC-D1lqnnrM",
+    "createdBy": "cantonrollfinder",
     "createdAt": "2026-01-01T00:00:00.000Z"
   },
   {
@@ -19,6 +20,7 @@
     "address": "41812 Ford Rd, Canton Township, MI 48187, USA",
     "website": "http://kokabon.com/",
     "googlePlaceId": "ChIJB1vTBk1TO4gRtT7aLe-qvrs",
+    "createdBy": "quietmugdaily",
     "createdAt": "2026-01-01T00:00:00.000Z"
   },
   {
@@ -30,6 +32,7 @@
     "address": "45470 Ford Rd, Canton Township, MI 48187, USA",
     "website": "https://menu.kungfutea.com/mobile/259",
     "googlePlaceId": "ChIJlVi146xTO4gRjGyxiBGWIp4",
+    "createdBy": "bobalantern88",
     "createdAt": "2026-01-01T00:00:00.000Z"
   },
   {
@@ -41,6 +44,7 @@
     "address": "8501 N Lilley Rd, Canton Township, MI 48187, USA",
     "website": "https://www.anytimefitness.com/locations/canton-michigan-1446/",
     "googlePlaceId": "ChIJUfvNgc5SO4gRijTJDNq4EoU",
+    "createdBy": "midnightrepclub",
     "createdAt": "2026-01-01T00:00:00.000Z"
   },
   {
@@ -51,6 +55,7 @@
     "zip": "90210",
     "address": "202 Beverly Dr, Beverly Hills, CA",
     "website": "https://techhub.com",
+    "createdBy": "deskpilotwest",
     "createdAt": "2026-01-01T00:00:00.000Z"
   },
   {
@@ -61,6 +66,7 @@
     "zip": "90210",
     "address": "303 Rodeo Dr, Beverly Hills, CA",
     "website": "https://greengrocer.com",
+    "createdBy": "freshcartgrove",
     "createdAt": "2026-01-01T00:00:00.000Z"
   },
   {
@@ -71,6 +77,7 @@
     "zip": "90210",
     "address": "404 Sunset Blvd, Los Angeles, CA",
     "website": "https://zenyoga.com",
+    "createdBy": "stillnessavenue",
     "createdAt": "2026-01-01T00:00:00.000Z"
   },
   {
@@ -82,6 +89,7 @@
     "address": "44248 Cherry Hill Rd, Canton Township, MI 48187, USA",
     "website": "http://zosgoodburger.com/",
     "googlePlaceId": "ChIJZWwS4lxTO4gRXaR8kwq0VcM",
+    "createdBy": "pattysignal",
     "createdAt": "2026-01-01T00:00:00.000Z"
   },
   {
@@ -93,6 +101,7 @@
     "address": "44730 Ford Rd, Canton Township, MI 48187, USA",
     "website": "https://woofgangbakery.com/cantonmi",
     "googlePlaceId": "ChIJh46CGDJTO4gRiJxAEpMzP98",
+    "createdBy": "treattrailtails",
     "createdAt": "2026-01-01T00:00:00.000Z"
   },
   {
@@ -104,6 +113,7 @@
     "address": "8240 N Lilley Rd, Canton Township, MI 48187, USA",
     "website": "https://thedetroitgarage.com/canton/",
     "googlePlaceId": "ChIJU3J5dN5SO4gRi4VU6tAYznM",
+    "createdBy": "motorledger",
     "createdAt": "2026-01-01T00:00:00.000Z"
   },
   {
@@ -114,6 +124,7 @@
     "zip": "90210",
     "address": "808 Library Way, Beverly Hills, CA",
     "website": "https://librarycafe.com",
+    "createdBy": "paperlatteco",
     "createdAt": "2026-01-01T00:00:00.000Z"
   },
   {
@@ -125,6 +136,7 @@
     "address": "42077 Ford Rd, Canton Township, MI 48187, USA",
     "website": "https://www.varajuice.com/",
     "googlePlaceId": "ChIJ4QD_KYlTO4gRYEvuHo_BMW4",
+    "createdBy": "pressedorbit",
     "createdAt": "2026-01-01T00:00:00.000Z"
   },
   {
@@ -136,6 +148,7 @@
     "address": "42823 Ford Rd, Canton Township, MI 48187, USA",
     "website": "https://moncoeurbooks.com/",
     "googlePlaceId": "ChIJ-wTfR1dTO4gRvkWu__3yblM",
+    "createdBy": "dogearedviolet",
     "createdAt": "2026-02-01T00:00:00.000Z"
   },
   {
@@ -146,6 +159,7 @@
     "zip": "90210",
     "address": "222 Sunset Ave, Beverly Hills, CA",
     "website": "https://sunsetslice.com",
+    "createdBy": "slicestreetlight",
     "createdAt": "2026-02-02T00:00:00.000Z"
   },
   {
@@ -157,6 +171,7 @@
     "address": "320 N Canton Center Rd, Canton Township, MI 48187, USA",
     "website": "http://www.kellerstein.com/",
     "googlePlaceId": "ChIJX0RPE5VTO4gRR5Mq5iMcqTw",
+    "createdBy": "petalmailroom",
     "createdAt": "2026-02-03T00:00:00.000Z"
   }
 ]
