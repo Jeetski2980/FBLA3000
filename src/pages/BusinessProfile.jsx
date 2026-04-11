@@ -5,6 +5,7 @@ import { useUI } from '../context/UIContext';
 import { Star, MapPin, Globe, Loader2, MessageSquare, CheckCircle2, Send, User, PlusCircle, Tag, Megaphone, Info, Bookmark } from 'lucide-react';
 import ReviewCard from '../components/ReviewCard';
 import FeedCard from '../components/FeedCard';
+import ImageAttribution from '../components/ImageAttribution';
 import { VERIFICATION_QUESTIONS } from '../constants';
 
 async function fetchBusinessRecord(id, signal) {
@@ -335,6 +336,10 @@ export default function BusinessProfile() {
                 <span className="text-xs font-bold uppercase tracking-widest opacity-40">No Image</span>
               </div>
             )}
+            <ImageAttribution
+              attributions={business.imageAttributions}
+              className="absolute bottom-4 left-4 right-4 text-[10px] font-medium text-white bg-black/65 backdrop-blur-md rounded-xl px-3 py-2 border border-white/10"
+            />
           </div>
           
           <div className="flex-1">

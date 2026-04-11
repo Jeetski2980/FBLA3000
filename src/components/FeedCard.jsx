@@ -5,6 +5,7 @@ import { format } from 'date-fns';
 import ImageUpload from './ImageUpload';
 import { useProfile } from '../context/ProfileContext';
 import { useUI } from '../context/UIContext';
+import ImageAttribution from './ImageAttribution';
 
 export default function FeedCard({ post, onUpdate, onDelete }) {
   const { profile } = useProfile();
@@ -205,6 +206,10 @@ export default function FeedCard({ post, onUpdate, onDelete }) {
             alt={post.title}
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
             referrerPolicy="no-referrer"
+          />
+          <ImageAttribution
+            attributions={post.imageAttributions}
+            className="absolute z-10 bottom-4 left-4 right-4 text-[9px] font-medium text-white bg-black/65 backdrop-blur-md rounded-xl px-3 py-2 border border-white/10"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
         </div>

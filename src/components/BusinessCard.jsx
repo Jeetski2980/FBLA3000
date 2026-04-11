@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Star, MapPin, Tag, Globe, Trash2 } from 'lucide-react';
 import { useProfile } from '../context/ProfileContext';
 import { useUI } from '../context/UIContext';
+import ImageAttribution from './ImageAttribution';
 
 export default function BusinessCard({ business, onDelete }) {
   const { profile } = useProfile();
@@ -64,6 +65,10 @@ export default function BusinessCard({ business, onDelete }) {
               <span className="text-[10px] font-black uppercase tracking-[0.3em] opacity-40">No Image</span>
             </div>
           )}
+          <ImageAttribution
+            attributions={business.imageAttributions}
+            className="absolute z-10 bottom-4 left-4 right-4 text-[9px] font-medium text-white bg-black/65 backdrop-blur-md rounded-xl px-3 py-2 border border-white/10"
+          />
           <div className="absolute top-4 left-4 bg-black/60 backdrop-blur-xl px-3 py-1.5 rounded-xl flex items-center gap-2 border border-white/10 shadow-2xl">
             <Star size={14} className="text-white fill-white" />
             <span className="text-xs font-black text-white">{business.avgRating.toFixed(1)}</span>

@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import express from 'express';
 import { createServer as createViteServer } from 'vite';
 import fs from 'fs';
@@ -65,6 +66,132 @@ async function startServer() { // Boot the API and Vite server
     ]);
 
     return { users, businesses };
+  };
+
+  const googleMapsApiKey = process.env.VITE_GOOGLE_MAPS_API_KEY || process.env.GOOGLE_MAPS_API_KEY;
+
+  const isPlaceholderImageUrl = (url) => typeof url === 'string' && url.includes('picsum.photos');
+
+  const buildGooglePlacePhotoUrl = (photoName) => {
+    if (!photoName || !googleMapsApiKey) {
+      return '';
+    }
+
+    const params = new URLSearchParams({
+      key: googleMapsApiKey,
+      maxWidthPx: '1600',
+      maxHeightPx: '1200',
+    });
+
+    return `https://places.googleapis.com/v1/${photoName}/media?${params.toString()}`;
+  };
+
+  const normalizeImageAttributions = (attributions) => (
+    Array.isArray(attributions)
+      ? attributions
+        .map((attribution) => ({
+          displayName: attribution?.displayName || '',
+          uri: attribution?.uri || '',
+        }))
+        .filter((attribution) => attribution.displayName)
+      : []
+  );
+
+  const fetchGooglePlacePhotoData = async (placeId) => {
+    if (!googleMapsApiKey || !placeId) {
+      return null;
+    }
+
+    try {
+      const response = await fetch(`https://places.googleapis.com/v1/places/${placeId}`, {
+        headers: {
+          'X-Goog-Api-Key': googleMapsApiKey,
+          'X-Goog-FieldMask': 'id,photos.name,photos.authorAttributions.displayName,photos.authorAttributions.uri',
+        },
+      });
+
+      if (!response.ok) {
+        return null;
+      }
+
+      const data = await response.json();
+      const primaryPhoto = Array.isArray(data?.photos) ? data.photos[0] : null;
+      const imageUrl = buildGooglePlacePhotoUrl(primaryPhoto?.name);
+
+      if (!imageUrl) {
+        return null;
+      }
+
+      return {
+        imageUrl,
+        imageAttributions: normalizeImageAttributions(primaryPhoto?.authorAttributions),
+      };
+    } catch (error) {
+      console.error(`Failed to load Google photo for place ${placeId}:`, error);
+      return null;
+    }
+  };
+
+  const hydrateBusinessesWithGooglePhotos = async (businesses) => {
+    if (!Array.isArray(businesses) || businesses.length === 0) {
+      return [];
+    }
+
+    const placeIds = [...new Set(
+      businesses
+        .map((business) => business?.googlePlaceId)
+        .filter(Boolean)
+    )];
+
+    if (!googleMapsApiKey || placeIds.length === 0) {
+      return businesses;
+    }
+
+    const photoEntries = await Promise.all(
+      placeIds.map(async (placeId) => [placeId, await fetchGooglePlacePhotoData(placeId)])
+    );
+
+    const photoMap = new Map(
+      photoEntries.filter(([, value]) => Boolean(value))
+    );
+
+    return businesses.map((business) => {
+      const googlePhoto = photoMap.get(business.googlePlaceId);
+      const hasCustomImage = business.imageUrl && !isPlaceholderImageUrl(business.imageUrl);
+
+      if (!googlePhoto || hasCustomImage) {
+        return business;
+      }
+
+      return {
+        ...business,
+        imageUrl: googlePhoto.imageUrl,
+        imageAttributions: googlePhoto.imageAttributions,
+        imageSource: 'google-places',
+      };
+    });
+  };
+
+  const attachBusinessDetailsToPosts = (posts, businesses) => {
+    const businessMap = new Map(
+      Array.isArray(businesses)
+        ? businesses.map((business) => [business.id, business])
+        : []
+    );
+
+    return posts.map((post) => {
+      const business = businessMap.get(post.businessId);
+      const shouldUseBusinessPhoto = business?.imageUrl && (!post.imageUrl || isPlaceholderImageUrl(post.imageUrl));
+
+      return {
+        ...post,
+        imageUrl: shouldUseBusinessPhoto ? business.imageUrl : post.imageUrl,
+        imageAttributions: shouldUseBusinessPhoto ? business.imageAttributions || [] : post.imageAttributions || [],
+        imageSource: shouldUseBusinessPhoto ? business.imageSource : post.imageSource,
+        businessName: post.businessName || business?.name,
+        businessCategory: post.businessCategory || business?.category || 'Local',
+      };
+    });
   };
 
   const writeSseEvent = (res, event, payload) => { // Send one SSE message
@@ -344,12 +471,16 @@ async function startServer() { // Boot the API and Vite server
     else if (sort === 'Most Reviewed') businesses.sort((a, b) => b.reviewCount - a.reviewCount);
     else if (sort === 'Alphabetical') businesses.sort((a, b) => a.name.localeCompare(b.name));
 
+    businesses = await hydrateBusinessesWithGooglePhotos(businesses);
+
     res.json(businesses);
   });
 
   app.get('/api/businesses/:id', async (req, res) => {
     const businesses = await readData('businesses.json');
-    const business = businesses.find(b => b.id === req.params.id);
+    const [business] = await hydrateBusinessesWithGooglePhotos(
+      businesses.filter(b => b.id === req.params.id)
+    );
     if (!business) return res.status(404).json({ error: 'Business not found' });
 
     const reviews = await readData('reviews.json');
@@ -363,7 +494,7 @@ async function startServer() { // Boot the API and Vite server
   app.get('/api/feed', async (req, res) => {
     const { zip, type } = req.query;
     let posts = await readData('posts.json');
-    const businesses = await readData('businesses.json');
+    const businesses = await hydrateBusinessesWithGooglePhotos(await readData('businesses.json'));
 
     if (zip) posts = posts.filter(p => p.zip === zip);
     if (type) posts = posts.filter(p => p.type === type);
@@ -374,24 +505,17 @@ async function startServer() { // Boot the API and Vite server
 
     posts.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
 
-    // Attach business info
-    const enrichedPosts = posts.map(p => {
-      const business = businesses.find(b => b.id === p.businessId);
-      return { 
-        ...p, 
-        businessName: p.businessName || business?.name, 
-        businessCategory: p.businessCategory || business?.category || 'Local'
-      };
-    });
+    const enrichedPosts = attachBusinessDetailsToPosts(posts, businesses);
 
     res.json(enrichedPosts);
   });
 
   app.get('/api/businesses/:id/posts', async (req, res) => {
     let posts = await readData('posts.json');
+    const businesses = await hydrateBusinessesWithGooglePhotos(await readData('businesses.json'));
     posts = posts.filter(p => p.businessId === req.params.id);
     posts.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
-    res.json(posts);
+    res.json(attachBusinessDetailsToPosts(posts, businesses));
   });
 
   app.post('/api/businesses/:id/posts', async (req, res) => {
@@ -424,7 +548,8 @@ async function startServer() { // Boot the API and Vite server
     await writeData('posts.json', posts);
     broadcastBusinessPostChange(newPost.businessId);
     broadcastFeedChange({ zip: newPost.zip, type: newPost.type });
-    res.status(201).json(newPost);
+    const [hydratedBusiness] = await hydrateBusinessesWithGooglePhotos([business]);
+    res.status(201).json(attachBusinessDetailsToPosts([newPost], [hydratedBusiness])[0]);
   });
 
   app.put('/api/posts/:id', async (req, res) => {
@@ -442,7 +567,8 @@ async function startServer() { // Boot the API and Vite server
     await writeData('posts.json', posts);
     broadcastBusinessPostChange(posts[index].businessId);
     broadcastFeedChange({ zip: posts[index].zip, type: posts[index].type });
-    res.json(posts[index]);
+    const businesses = await hydrateBusinessesWithGooglePhotos(await readData('businesses.json'));
+    res.json(attachBusinessDetailsToPosts([posts[index]], businesses)[0]);
   });
 
   app.delete('/api/posts/:id', async (req, res) => {
